@@ -2,6 +2,8 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+const src = path.resolve(import.meta.dirname, 'src');
+
 export default defineConfig({
   root: 'src',
   plugins: [react()],
@@ -11,7 +13,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@src': path.resolve(import.meta.dirname, 'src')
+      '@src': src
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      styl: {
+        paths: [src, 'node_modules']
+      }
     }
   }
 });
