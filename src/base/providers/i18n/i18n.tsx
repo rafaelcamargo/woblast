@@ -8,8 +8,10 @@ type I18nProviderProps = {
   children: React.ReactNode
 };
 
-export const I18nProvider = ({ children }: I18nProviderProps) => (
-  <PolangI18nProvider locales={locales}>
-    {children}
-  </PolangI18nProvider>
-);
+export const I18nProvider = ({ children }: I18nProviderProps) => {
+  return (
+    <PolangI18nProvider locales={locales}>
+      {children}
+    </PolangI18nProvider>
+  );
+};

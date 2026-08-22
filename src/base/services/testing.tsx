@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { I18nProvider } from '@src/base/providers/i18n';
+import { I18nProvider } from '@src/base/providers/i18n/i18n';
 export * from '@testing-library/react';
 
 export function customRender(component: React.ReactNode){
@@ -11,4 +11,8 @@ export function customRender(component: React.ReactNode){
     </I18nProvider>
   );
   return { user, ...result };
+}
+
+export function mockRoute(path: string){
+  window.history.pushState({}, '', path);
 }

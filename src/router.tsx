@@ -2,7 +2,8 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from '@src/routes';
 
-const HomeView = lazy(() => import('@src/home/views/home-view'));
+const HomeView = lazy(() => import('@src/home/views/home-view/home-view'));
+const PlansView = lazy(() => import('@src/plans/views/plans-view/plans-view'));
 
 export const Router = () => {
   return (
@@ -27,7 +28,8 @@ export const Router = () => {
 
 function getViewComponentByViewName(viewName: string) {
   const View = {
-    home: HomeView
+    home: HomeView,
+    plans: PlansView
   }[viewName];
   return (
     <Suspense fallback={<></>}>

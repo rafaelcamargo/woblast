@@ -15,6 +15,7 @@ module.exports = {
     }
   },
   moduleNameMapper: {
+    '^@src/.*\\.styl$': '<rootDir>/src/base/mocks/jest.style-mock.cjs',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '\\.styl$': '<rootDir>/src/base/mocks/jest.style-mock.cjs'
   },
