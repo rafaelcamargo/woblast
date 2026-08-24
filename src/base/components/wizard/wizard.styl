@@ -1,0 +1,23 @@
+.wt-wizard
+  display flex
+  flex-direction column
+  align-items center
+  .wt-wizard-header
+    margin-bottom 8px
+    .wt-wizard-steps
+      display flex
+      justify-content center
+      gap 8px
+      margin-bottom 16px
+    .wt-wizard-step-dot
+      width 8px
+      height 8px
+      border-radius 8px
+      background-color var(--wt-color-gray-light)
+      &.is-current
+        background-color var(--wt-color-primary)
+    p
+      color var(--wt-color-gray-dark)
+      font-size var(--wt-font-size-xs)
+      font-weight 700
+      text-align center
