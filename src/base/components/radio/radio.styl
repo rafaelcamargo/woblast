@@ -1,0 +1,46 @@
+.wt-radio
+  display flex
+  align-items flex-start
+  gap 16px
+  cursor pointer
+  label
+    font-size var(--wt-font-size-sm)
+    font-weight 700
+  p
+    font-size var(--wt-font-size-xs)
+  input[type=radio]
+    flex-shrink 0
+    margin 2px 0 0
+    width 22px
+    height 22px
+    background-color transparent
+    border-width 2px
+    border-style solid
+    border-color var(--wt-color-primary)
+    border-radius 22px
+    box-sizing border-box
+    box-shadow 0 0 0 var(--wt-color-blue-lighter)
+    appearance none
+    outline 0
+    transition-property box-shadow, border-color
+    transition-duration 200ms
+    transition-timing-function ease-in-out
+    &:focus,
+    &:active
+      box-shadow 0 0 0 4px var(--wt-color-blue-light)
+      border-color var(--wt-color-blue-mid-dark)
+    &:checked
+      background-color var(--wt-color-primary)
+      background-image url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEyIDEyIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTEuNiwyLjNsLTYuOCw4LjhjMCwwLS4xLjItLjMuMnMtLjIsMC0uMy0uMVMuNCw3LjQuNCw3LjRoMGMwLS4xLDAtLjIsMC0uMnMwLS4xLDAtLjJjMCwwLDAsMCwwLDAsLjQtLjQsMS4xLTEuMiwxLjItMS4zLDAsMCwuMS0uMS4yLS4xcy4yLjEuMy4yYzAsMCwyLjIsMi4xLDIuMiwyLjFMOS44LjhzLjEsMCwuMiwwLC4xLDAsLjIsMGwxLjUsMS4yczAsLjEsMCwuMmMwLDAsMCwuMSwwLC4yWiIvPjwvc3ZnPgo=')
+      background-size 12px 12px
+      background-position center center
+      background-repeat no-repeat
+      border-color var(--wt-color-primary)
+    &:disabled
+      background-color var(--wt-color-gray-light)
+
+.wt-radio-copy
+  display flex
+  flex-direction column
+  flex 1
+  gap 8px
