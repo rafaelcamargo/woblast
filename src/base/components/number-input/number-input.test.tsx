@@ -1,9 +1,9 @@
 import { customRender, screen } from '@src/base/services/testing';
-import { MoneyInput } from './money-input';
+import { NumberInput } from './number-input';
 
-describe('Money Input', () => {
-  function mount(props: Partial<React.ComponentProps<typeof MoneyInput>> = {}) {
-    return customRender(<MoneyInput name='amount' {...props} />);
+describe('Number Input', () => {
+  function mount(props: Partial<React.ComponentProps<typeof NumberInput>> = {}) {
+    return customRender(<NumberInput name='amount' {...props} />);
   }
 
   it('should render a decimal text input with zero as default', () => {
@@ -12,6 +12,24 @@ describe('Money Input', () => {
     expect(input).toHaveAttribute('type', 'text');
     expect(input).toHaveAttribute('inputmode', 'decimal');
     expect(input).toHaveValue('0,00');
+  });
+
+  it('should not render number type modifier css class by default', () => {
+    mount();
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveClass('wt-number-input');
+    expect(input).not.toHaveClass('is-currency');
+    expect(input).not.toHaveClass('is-percent');
+  });
+
+  it('should add the currency modifier when number type is currency', () => {
+    mount({ type: 'currency' });
+    expect(screen.getByRole('textbox')).toHaveClass('wt-number-input', 'is-currency');
+  });
+
+  it('should add the percent modifier when number type is percent', () => {
+    mount({ type: 'percent' });
+    expect(screen.getByRole('textbox')).toHaveClass('wt-number-input', 'is-percent');
   });
 
   it('should format typed digits as currency without a symbol and notify the float value', async () => {

@@ -1,5 +1,5 @@
 import { useTranslation } from '@compilorama/polang';
-import { MoneyInput, type MoneyInputChangeValue } from '@src/base/components/money-input/money-input';
+import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { Radio } from '@src/base/components/radio/radio';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { PlanRetirementWizardFormData } from '@src/plans/types/plan-retirement-wizard-form-data';
@@ -11,7 +11,7 @@ const BALANCE_AVAILABLE = 'balance_available';
 type PlanRetirementWizardStep1Props = {
   formData: PlanRetirementWizardFormData;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onValueChange: (nextValue: MoneyInputChangeValue) => void;
+  onValueChange: (nextValue: NumberInputChangeValue) => void;
   onNextButtonClick: () => void;
 }
 
@@ -55,13 +55,14 @@ function isNextStepEnabled(formData: PlanRetirementWizardFormData) {
 function buildBalanceInput(
   optionValue: string,
   formData: PlanRetirementWizardFormData,
-  onValueChange: (nextValue: MoneyInputChangeValue) => void
+  onValueChange: (nextValue: NumberInputChangeValue) => void
 ) {
   if (optionValue !== BALANCE_AVAILABLE || formData.initialBalanceAvailability !== BALANCE_AVAILABLE) return null;
   return (
-    <MoneyInput
+    <NumberInput
       name='initialBalance'
       value={formData.initialBalance}
+      type='currency'
       onValueChange={onValueChange}
     />
   );

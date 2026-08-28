@@ -1,12 +1,12 @@
 import { useTranslation } from '@compilorama/polang';
-import { MoneyInput, type MoneyInputChangeValue } from '@src/base/components/money-input/money-input';
+import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { PlanRetirementWizardFormData } from '@src/plans/types/plan-retirement-wizard-form-data';
 import translations from './plan-retirement-wizard-step-2.t';
 
 type PlanRetirementWizardStep2Props = {
   formData: PlanRetirementWizardFormData;
-  onValueChange: (nextValue: MoneyInputChangeValue) => void;
+  onValueChange: (nextValue: NumberInputChangeValue) => void;
   onPreviousButtonClick: () => void;
   hasPreviousStep?: boolean;
 }
@@ -27,9 +27,10 @@ export const PlanRetirementWizardStep2 = ({
     >
       <div className='wt-plan-retirement-wizard-step-2'>
         <p>{t('monthly_deposits_description')}</p>
-        <MoneyInput
+        <NumberInput
           name='monthlyDeposit'
           value={formData.monthlyDeposit}
+          type='currency'
           aria-label={t('monthly_deposit_amount') as string}
           onValueChange={onValueChange}
         />

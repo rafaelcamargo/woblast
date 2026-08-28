@@ -1,34 +1,36 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from '@compilorama/polang';
 
-const DEFAULT_LOCALE = 'pt-BR';
-const DEFAULT_CURRENCY = 'BRL';
-
-export type MoneyInputChangeValue = {
+export type NumberInputChangeValue = {
   name: string
   value: number
 }
 
-type MoneyInputProps = Omit<
+type NumberInputProps = Omit<
   React.ComponentPropsWithoutRef<'input'>,
   'type' | 'inputMode' | 'value'
 > & {
   name: string
   value?: number
+  type?: 'currency' | 'percent'
   onValueChange?: (
-    nextValue: MoneyInputChangeValue,
+    nextValue: NumberInputChangeValue,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void
 }
 
-export const MoneyInput = ({
+export const NumberInput = ({
   name,
   value,
+  type,
+  className,
   onChange,
   onValueChange,
   onKeyDown,
   ...inputProps
-}: MoneyInputProps) => {
-  const [displayValue, setDisplayValue] = useState(() => formatMoneyAmount(value ?? 0));
+}: NumberInputProps) => {
+  const { locale } = useTranslation({});
+  const [displayValue, setDisplayValue] = useState(() => formatAmount(value ?? 0, locale.code));
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isAllowedKey(event)) {
       event.preventDefault();
@@ -38,7 +40,7 @@ export const MoneyInput = ({
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const amount = digitsToAmount(parseDigits(event.target.value));
-    const formattedValue = formatMoneyAmount(amount);
+    const formattedValue = formatAmount(amount, locale.code);
     setDisplayValue(formattedValue);
     event.target.value = formattedValue;
     moveCaretToEnd(event.target);
@@ -48,13 +50,14 @@ export const MoneyInput = ({
 
   useEffect(() => {
     if (value === undefined) return;
-    setDisplayValue(formatMoneyAmount(value));
-  }, [value]);
+    setDisplayValue(formatAmount(value, locale.code));
+  }, [value, locale.code]);
 
   return (
     <input
       name={name}
       value={displayValue}
+      className={buildClassName(type, className)}
       {...inputProps}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
@@ -64,6 +67,20 @@ export const MoneyInput = ({
   );
 };
 
+function buildClassName(type: NumberInputProps['type'], className?: string) {
+  const classes = ['wt-number-input'];
+  if (type) classes.push(buildTypeModifiers()[type]);
+  if (className) classes.push(className);
+  return classes.join(' ');
+}
+
+function buildTypeModifiers() {
+  return {
+    currency: 'is-currency',
+    percent: 'is-percent'
+  };
+}
+
 function parseDigits(value: string) {
   return value.replace(/\D/g, '');
 }
@@ -72,15 +89,12 @@ function digitsToAmount(digits: string) {
   return Number(digits || '0') / 100;
 }
 
-function formatMoneyAmount(amount: number) {
-  return new Intl.NumberFormat(DEFAULT_LOCALE, {
-    style: 'currency',
-    currency: DEFAULT_CURRENCY
-  })
-    .formatToParts(amount)
-    .filter(part => part.type !== 'currency' && part.type !== 'literal')
-    .map(part => part.value)
-    .join('');
+function formatAmount(amount: number, localeCode: string) {
+  return new Intl.NumberFormat(localeCode, {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount);
 }
 
 function isAllowedKey(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -104,7 +118,7 @@ function moveCaretToEnd(input: HTMLInputElement) {
 }
 
 function notifyValueChange(
-  onValueChange: MoneyInputProps['onValueChange'],
+  onValueChange: NumberInputProps['onValueChange'],
   name: string,
   amount: number,
   event: React.ChangeEvent<HTMLInputElement>
