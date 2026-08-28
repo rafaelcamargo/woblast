@@ -12,15 +12,22 @@ type PlanRetirementWizardStep1Props = {
   formData: PlanRetirementWizardFormData;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onValueChange: (nextValue: MoneyInputChangeValue) => void;
+  onNextButtonClick: () => void;
 }
 
-export const PlanRetirementWizardStep1 = ({ formData, onChange, onValueChange }: PlanRetirementWizardStep1Props) => {
+export const PlanRetirementWizardStep1 = ({
+  formData,
+  onChange,
+  onValueChange,
+  onNextButtonClick
+}: PlanRetirementWizardStep1Props) => {
   const { t } = useTranslation(translations);
 
   return (
     <WizardStep
       stepName={t('step_name')}
       nextStepEnabled={isNextStepEnabled(formData)}
+      onNextButtonClick={onNextButtonClick}
     >
       <div className='wt-plan-retirement-wizard-step-1'>
         {buildBalanceOptions(t).map(option => (
