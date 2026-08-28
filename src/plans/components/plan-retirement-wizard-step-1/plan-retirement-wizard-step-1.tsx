@@ -26,7 +26,7 @@ export const PlanRetirementWizardStep1 = ({
   return (
     <WizardStep
       stepName={t('step_name')}
-      nextStepEnabled={isNextStepEnabled(formData)}
+      nextButtonDisabled={isNextButtonDisabled(formData)}
       onNextButtonClick={onNextButtonClick}
     >
       <div className='wt-plan-retirement-wizard-step-1'>
@@ -48,8 +48,8 @@ export const PlanRetirementWizardStep1 = ({
   );
 };
 
-function isNextStepEnabled(formData: PlanRetirementWizardFormData) {
-  return formData.initialBalanceAvailability === BALANCE_UNAVAILABLE || Number(formData.initialBalance) > 0;
+function isNextButtonDisabled(formData: PlanRetirementWizardFormData) {
+  return formData.initialBalanceAvailability === BALANCE_AVAILABLE && !(Number(formData.initialBalance) > 0);
 }
 
 function buildBalanceInput(

@@ -23,7 +23,7 @@ export const PlanRetirementWizardStep3 = ({
     <WizardStep
       stepName={t('expected_return')}
       hasPreviousStep={hasPreviousStep}
-      nextStepEnabled={Number(formData.averageAnnualReturn) > 0}
+      nextButtonDisabled={!(Number(formData.averageAnnualReturn) > 0)}
       onPreviousButtonClick={onPreviousButtonClick}
     >
       <div className='wt-plan-retirement-wizard-step-3'>

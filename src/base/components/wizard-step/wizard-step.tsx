@@ -5,7 +5,7 @@ import translations from './wizard-step.t';
 export type WizardStepProps = {
   stepName: React.ReactNode
   nextStepButtonLabel?: string
-  nextStepEnabled?: boolean
+  nextButtonDisabled?: boolean
   onPreviousButtonClick?: () => void
   onNextButtonClick?: () => void
   hasPreviousStep?: boolean
@@ -15,7 +15,7 @@ export type WizardStepProps = {
 export const WizardStep = ({
   stepName,
   nextStepButtonLabel,
-  nextStepEnabled,
+  nextButtonDisabled,
   onPreviousButtonClick,
   onNextButtonClick,
   hasPreviousStep,
@@ -27,7 +27,7 @@ export const WizardStep = ({
       {children}
       <WizardStepFooter
         nextStepButtonLabel={nextStepButtonLabel}
-        nextStepEnabled={nextStepEnabled}
+        nextButtonDisabled={nextButtonDisabled}
         onPreviousButtonClick={onPreviousButtonClick}
         onNextButtonClick={onNextButtonClick}
         hasPreviousStep={hasPreviousStep}
@@ -38,7 +38,7 @@ export const WizardStep = ({
 
 type WizardStepFooterProps = {
   nextStepButtonLabel?: string
-  nextStepEnabled?: boolean
+  nextButtonDisabled?: boolean
   onPreviousButtonClick?: () => void
   onNextButtonClick?: () => void
   hasPreviousStep?: boolean
@@ -46,7 +46,7 @@ type WizardStepFooterProps = {
 
 const WizardStepFooter = ({
   nextStepButtonLabel,
-  nextStepEnabled,
+  nextButtonDisabled,
   onPreviousButtonClick,
   onNextButtonClick,
   hasPreviousStep
@@ -65,7 +65,7 @@ const WizardStepFooter = ({
       )}
       <Button
         onClick={onNextButtonClick}
-        disabled={nextStepEnabled === false}
+        disabled={nextButtonDisabled}
       >
         {nextStepButtonLabel || t('next')}
       </Button>
