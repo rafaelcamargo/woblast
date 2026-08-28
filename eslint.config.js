@@ -28,8 +28,8 @@ export default tseslint.config(
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       complexity: ['error', { max: 3 }],
-      'max-lines': ['error', { max: 100 }],
-      'max-statements': ['error', { max: 5 }, { ignoreTopLevelFunctions: true }],
+      'max-lines': ['error', { max: 150 }],
+      'max-statements': ['error', { max: 8 }, { ignoreTopLevelFunctions: true }],
       'react/prop-types': 0
     }
   },

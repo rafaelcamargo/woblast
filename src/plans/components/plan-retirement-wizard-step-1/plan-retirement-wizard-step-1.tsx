@@ -1,4 +1,5 @@
 import { useTranslation } from '@compilorama/polang';
+import { MoneyInput, type MoneyInputChangeValue } from '@src/base/components/money-input/money-input';
 import { Radio } from '@src/base/components/radio/radio';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { PlanRetirementWizardFormData } from '@src/plans/types/plan-retirement-wizard-form-data';
@@ -10,9 +11,10 @@ const BALANCE_AVAILABLE = 'balance_available';
 type PlanRetirementWizardStep1Props = {
   formData: PlanRetirementWizardFormData;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+  onValueChange: (nextValue: MoneyInputChangeValue) => void;
+}
 
-export const PlanRetirementWizardStep1 = ({ formData, onChange }: PlanRetirementWizardStep1Props) => {
+export const PlanRetirementWizardStep1 = ({ formData, onChange, onValueChange }: PlanRetirementWizardStep1Props) => {
   const { t } = useTranslation(translations);
 
   return (
@@ -31,15 +33,7 @@ export const PlanRetirementWizardStep1 = ({ formData, onChange }: PlanRetirement
             description={option.description}
             onChange={onChange}
           >
-            {option.value === BALANCE_AVAILABLE && formData.initialBalanceAvailability === BALANCE_AVAILABLE && (
-              <input
-                name='initialBalance'
-                value={formData.initialBalance}
-                type='text'
-                className='wt-plan-retirement-wizard-step-1-balance-input'
-                onChange={onChange}
-              />
-            )}
+            {buildBalanceInput(option.value, formData, onValueChange)}
           </Radio>
         ))}
       </div>
@@ -48,11 +42,22 @@ export const PlanRetirementWizardStep1 = ({ formData, onChange }: PlanRetirement
 };
 
 function isNextStepEnabled(formData: PlanRetirementWizardFormData) {
-  return formData.initialBalanceAvailability === BALANCE_UNAVAILABLE || parseBalance(formData.initialBalance) > 0;
+  return formData.initialBalanceAvailability === BALANCE_UNAVAILABLE || Number(formData.initialBalance) > 0;
 }
 
-function parseBalance(value: string) {
-  return Number(value.replace(/\./g, '').replace(',', '.'));
+function buildBalanceInput(
+  optionValue: string,
+  formData: PlanRetirementWizardFormData,
+  onValueChange: (nextValue: MoneyInputChangeValue) => void
+) {
+  if (optionValue !== BALANCE_AVAILABLE || formData.initialBalanceAvailability !== BALANCE_AVAILABLE) return null;
+  return (
+    <MoneyInput
+      name='initialBalance'
+      value={formData.initialBalance}
+      onValueChange={onValueChange}
+    />
+  );
 }
 
 function buildBalanceOptions(t: (key: string) => React.ReactNode) {
