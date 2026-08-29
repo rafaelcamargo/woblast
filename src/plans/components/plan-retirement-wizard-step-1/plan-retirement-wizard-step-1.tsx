@@ -40,7 +40,7 @@ export const PlanRetirementWizardStep1 = ({
             description={option.description}
             onChange={onChange}
           >
-            {buildBalanceInput(option.value, formData, onValueChange)}
+            {buildBalanceInput(option.value, formData, onValueChange, t)}
           </Radio>
         ))}
       </div>
@@ -55,7 +55,8 @@ function isNextButtonDisabled(formData: PlanRetirementWizardFormData) {
 function buildBalanceInput(
   optionValue: string,
   formData: PlanRetirementWizardFormData,
-  onValueChange: (nextValue: NumberInputChangeValue) => void
+  onValueChange: (nextValue: NumberInputChangeValue) => void,
+  t: (key: string) => React.ReactNode
 ) {
   if (optionValue !== BALANCE_AVAILABLE || formData.initialBalanceAvailability !== BALANCE_AVAILABLE) return null;
   return (
@@ -63,6 +64,7 @@ function buildBalanceInput(
       name='initialBalance'
       value={formData.initialBalance}
       type='currency'
+      aria-label={t('initial_balance') as string}
       onValueChange={onValueChange}
     />
   );

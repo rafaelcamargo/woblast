@@ -8,6 +8,7 @@ type PlanRetirementWizardStep3Props = {
   formData: PlanRetirementWizardFormData;
   onValueChange: (nextValue: NumberInputChangeValue) => void;
   onPreviousButtonClick: () => void;
+  onNextButtonClick: () => void;
   hasPreviousStep?: boolean;
 }
 
@@ -15,6 +16,7 @@ export const PlanRetirementWizardStep3 = ({
   formData,
   onValueChange,
   onPreviousButtonClick,
+  onNextButtonClick,
   hasPreviousStep
 }: PlanRetirementWizardStep3Props) => {
   const { t } = useTranslation(translations);
@@ -25,6 +27,7 @@ export const PlanRetirementWizardStep3 = ({
       hasPreviousStep={hasPreviousStep}
       nextButtonDisabled={!(Number(formData.averageAnnualReturn) > 0)}
       onPreviousButtonClick={onPreviousButtonClick}
+      onNextButtonClick={onNextButtonClick}
     >
       <div className='wt-plan-retirement-wizard-step-3'>
         <p>{t('expected_return_description')}</p>

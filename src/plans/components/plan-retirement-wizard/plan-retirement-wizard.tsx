@@ -4,6 +4,7 @@ import { Wizard } from '@src/base/components/wizard/wizard';
 import { PlanRetirementWizardStep1 } from '@src/plans/components/plan-retirement-wizard-step-1/plan-retirement-wizard-step-1';
 import { PlanRetirementWizardStep2 } from '@src/plans/components/plan-retirement-wizard-step-2/plan-retirement-wizard-step-2';
 import { PlanRetirementWizardStep3 } from '@src/plans/components/plan-retirement-wizard-step-3/plan-retirement-wizard-step-3';
+import { PlanRetirementWizardStep4 } from '@src/plans/components/plan-retirement-wizard-step-4/plan-retirement-wizard-step-4';
 import type { PlanRetirementWizardFormData } from '@src/plans/types/plan-retirement-wizard-form-data';
 
 export const PlanRetirementWizard = () => {
@@ -12,7 +13,8 @@ export const PlanRetirementWizard = () => {
     initialBalanceAvailability: 'balance_unavailable',
     initialBalance: 0,
     monthlyDeposit: 0,
-    averageAnnualReturn: 0
+    averageAnnualReturn: 0,
+    averageAnnualInflation: 0
   });
   const handleFormDataChange = ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [name]: value });
@@ -38,6 +40,12 @@ export const PlanRetirementWizard = () => {
         onNextButtonClick={goForward}
       />
       <PlanRetirementWizardStep3
+        formData={formData}
+        onValueChange={handleMoneyFormDataChange}
+        onPreviousButtonClick={goBack}
+        onNextButtonClick={goForward}
+      />
+      <PlanRetirementWizardStep4
         formData={formData}
         onValueChange={handleMoneyFormDataChange}
         onPreviousButtonClick={goBack}

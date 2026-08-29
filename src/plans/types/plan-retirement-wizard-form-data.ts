@@ -3,4 +3,5 @@ export type PlanRetirementWizardFormData = {
   initialBalance: number | undefined;
   monthlyDeposit: number | undefined;
   averageAnnualReturn: number | undefined;
+  averageAnnualInflation: number | undefined;
 };

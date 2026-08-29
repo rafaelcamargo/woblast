@@ -6,7 +6,8 @@ const translations: Translations = {
     balance_unavailable_title: 'Vou começar do zero',
     balance_unavailable_description: 'Não possuo reservas, mas com um bom plano em mãos, poupar se tornará mais fácil.',
     balance_available_title: 'Já tenho uma caixinha',
-    balance_available_description: 'Possuo algumas economias que podem servir de saldo inicial pro planejamento.'
+    balance_available_description: 'Possuo algumas economias que podem servir de saldo inicial pro planejamento.',
+    initial_balance: 'Saldo inicial'
   }
 };
 
