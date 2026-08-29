@@ -97,4 +97,21 @@ describe('Number Input', () => {
       expect.objectContaining({ target: input })
     );
   });
+
+  it('should allow custom css class', () => {
+    mount({ className: 'custom-class' });
+    expect(screen.getByRole('textbox')).toHaveClass('wt-number-input', 'custom-class');
+  });
+
+  it('should emit 0 on chance if input has been cleared', async () => {
+    const onValueChange = jest.fn();
+    const { user } = mount({ value: 10, onValueChange });
+    const input = screen.getByRole('textbox');
+    await user.click(input);
+    await user.keyboard('{Control>}a{/Control}{Delete}');
+    expect(onValueChange).toHaveBeenLastCalledWith(
+      { name: 'amount', value: 0 },
+      expect.objectContaining({ target: input })
+    );
+  });
 });

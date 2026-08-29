@@ -123,6 +123,5 @@ function notifyValueChange(
   amount: number,
   event: React.ChangeEvent<HTMLInputElement>
 ) {
-  if (!onValueChange) return;
-  onValueChange({ name, value: amount }, event);
+  onValueChange?.({ name, value: amount }, event);
 }

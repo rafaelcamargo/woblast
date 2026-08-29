@@ -19,4 +19,10 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Você ainda não tem um plano' })).toBeInTheDocument();
     expect(screen.getByText('Quanto antes você começa, mais fácil fica a caminhada. Construa seu plano agora mesmo!')).toBeInTheDocument();
   });
+
+  it('should render plans new view', async () => {
+    mockRoute('/plans/new');
+    customRender(<App />);
+    expect(await screen.findByRole('heading', { level: 2, name: 'Saldo inicial' })).toBeInTheDocument();
+  });
 });

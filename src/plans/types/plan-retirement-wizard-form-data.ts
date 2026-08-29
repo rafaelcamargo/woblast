@@ -4,4 +4,6 @@ export type PlanRetirementWizardFormData = {
   monthlyDeposit: number | undefined;
   averageAnnualReturn: number | undefined;
   averageAnnualInflation: number | undefined;
+  averageTaxRate: number | undefined;
+  desiredMonthlyIncome: number | undefined;
 };

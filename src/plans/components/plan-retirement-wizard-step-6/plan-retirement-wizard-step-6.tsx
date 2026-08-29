@@ -2,40 +2,37 @@ import { useTranslation } from '@compilorama/polang';
 import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { PlanRetirementWizardFormData } from '@src/plans/types/plan-retirement-wizard-form-data';
-import translations from './plan-retirement-wizard-step-4.t';
+import translations from './plan-retirement-wizard-step-6.t';
 
-type PlanRetirementWizardStep4Props = {
+type PlanRetirementWizardStep6Props = {
   formData: PlanRetirementWizardFormData;
   onValueChange: (nextValue: NumberInputChangeValue) => void;
   onPreviousButtonClick: () => void;
-  onNextButtonClick: () => void;
   hasPreviousStep?: boolean;
 }
 
-export const PlanRetirementWizardStep4 = ({
+export const PlanRetirementWizardStep6 = ({
   formData,
   onValueChange,
   onPreviousButtonClick,
-  onNextButtonClick,
   hasPreviousStep
-}: PlanRetirementWizardStep4Props) => {
+}: PlanRetirementWizardStep6Props) => {
   const { t } = useTranslation(translations);
 
   return (
     <WizardStep
-      stepName={t('expected_inflation')}
+      stepName={t('desired_monthly_income')}
       hasPreviousStep={hasPreviousStep}
-      nextButtonDisabled={!(Number(formData.averageAnnualInflation) > 0)}
+      nextButtonDisabled={!(Number(formData.desiredMonthlyIncome) > 0)}
       onPreviousButtonClick={onPreviousButtonClick}
-      onNextButtonClick={onNextButtonClick}
     >
-      <div className='wt-plan-retirement-wizard-step-4'>
-        <p>{t('expected_inflation_description')}</p>
+      <div className='wt-plan-retirement-wizard-step-6'>
+        <p>{t('desired_monthly_income_description')}</p>
         <NumberInput
-          name='averageAnnualInflation'
-          value={formData.averageAnnualInflation}
-          type='percent'
-          aria-label={t('average_annual_inflation') as string}
+          name='desiredMonthlyIncome'
+          value={formData.desiredMonthlyIncome}
+          type='currency'
+          aria-label={t('desired_monthly_income_amount') as string}
           onValueChange={onValueChange}
         />
       </div>
