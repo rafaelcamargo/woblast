@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from '@src/routes';
 
 const HomeView = lazy(() => import('@src/home/views/home-view/home-view'));
-const PlansNewView = lazy(() => import('@src/plans/views/plans-new-view/plans-new-view'));
+const NewPlanView = lazy(() => import('@src/plans/views/new-plan-view/new-plan-view'));
 const PlansView = lazy(() => import('@src/plans/views/plans-view/plans-view'));
 
 export const Router = () => {
@@ -30,7 +30,7 @@ export const Router = () => {
 function getViewComponentByViewName(viewName: string) {
   const View = {
     home: HomeView,
-    'new-plan': PlansNewView,
+    'new-plan': NewPlanView,
     plans: PlansView
   }[viewName];
   return (

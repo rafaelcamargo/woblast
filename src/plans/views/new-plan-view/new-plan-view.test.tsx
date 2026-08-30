@@ -1,9 +1,9 @@
 import { customRender, screen } from '@src/base/services/testing';
-import PlansNewView from './plans-new-view';
+import NewPlanView from './new-plan-view';
 
-describe('Plans New View', () => {
+describe('New Plan View', () => {
   function mount() {
-    return customRender(<PlansNewView />);
+    return customRender(<NewPlanView />);
   }
 
   beforeEach(() => {

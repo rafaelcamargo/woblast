@@ -4,7 +4,7 @@ import { Topbar } from '@src/base/components/topbar/topbar';
 import { ViewContainer } from '@src/base/components/view-container/view-container';
 import { PlanRetirementWizard } from '@src/plans/components/plan-retirement-wizard/plan-retirement-wizard';
 
-const PlansNewView = () => {
+const NewPlanView = () => {
   return (
     <>
       <Topbar rightSlot={<Logo />} />
@@ -15,4 +15,4 @@ const PlansNewView = () => {
   );
 };
 
-export default PlansNewView;
+export default NewPlanView;
