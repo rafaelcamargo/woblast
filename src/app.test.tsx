@@ -2,8 +2,21 @@ import { customRender, mockRoute, screen } from '@src/base/services/testing';
 import { App } from './app';
 
 describe('App', () => {
+  function buildPlanFormDataMock() {
+    return {
+      initialBalanceAvailability: 'balance_available',
+      initialBalance: 10000,
+      monthlyDeposit: 2000,
+      averageAnnualReturn: 9.5,
+      averageAnnualInflation: 4.5,
+      averageTaxRate: 15,
+      desiredMonthlyIncome: 5000
+    };
+  }
+
   beforeEach(() => {
     mockRoute('/');
+    window.localStorage.clear();
   });
 
   it('should contain the homepage title on the document', async () => {
@@ -24,5 +37,12 @@ describe('App', () => {
     mockRoute('/plans/new');
     customRender(<App />);
     expect(await screen.findByRole('heading', { level: 2, name: 'Saldo inicial' })).toBeInTheDocument();
+  });
+
+  it('should render plan details view', async () => {
+    window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(buildPlanFormDataMock()));
+    mockRoute('/plans/temp');
+    customRender(<App />);
+    expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
   });
 });

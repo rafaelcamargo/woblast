@@ -8,6 +8,10 @@ export default [
     name: 'new-plan'
   },
   {
+    path: '/plans/:planId',
+    name: 'plan-details'
+  },
+  {
     path: '/plans',
     name: 'plans'
   }

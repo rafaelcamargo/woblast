@@ -1,9 +1,12 @@
 .wt-button
+  display inline-flex
+  align-items center
   padding 0 32px
   height 40px
   font-family var(--wt-font-family-primary)
   font-size var(--wt-font-size-sm)
   font-weight 700
+  text-decoration none
   border-radius 12px
   border 0
   box-sizing border-box
@@ -14,7 +17,9 @@
   &.is-secondary
     background-color var(--wt-color-blue-light)
     color var(--wt-color-blue-mid-dark)
-  &:disabled
+  &:disabled,
+  &[aria-disabled="true"]
     background-color var(--wt-color-gray-light)
     color var(--wt-color-gray-dark)
     cursor default
+    pointer-events none

@@ -8,11 +8,11 @@ import { PlanRetirementWizardStep3 } from '@src/plans/components/plan-retirement
 import { PlanRetirementWizardStep4 } from '@src/plans/components/plan-retirement-wizard-step-4/plan-retirement-wizard-step-4';
 import { PlanRetirementWizardStep5 } from '@src/plans/components/plan-retirement-wizard-step-5/plan-retirement-wizard-step-5';
 import { PlanRetirementWizardStep6 } from '@src/plans/components/plan-retirement-wizard-step-6/plan-retirement-wizard-step-6';
-import type { PlanRetirementWizardFormData } from '@src/plans/types/plan-retirement-wizard-form-data';
+import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
 
 export const PlanRetirementWizard = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useLocalStorageState<PlanRetirementWizardFormData>('wt_planRetirementWizardFormData', {
+  const [formData, setFormData] = useLocalStorageState<RetirementPlanFormData>('wt_retirementPlanFormData', {
     initialBalanceAvailability: 'balance_unavailable',
     initialBalance: 0,
     monthlyDeposit: 0,

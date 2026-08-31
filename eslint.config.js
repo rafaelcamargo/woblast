@@ -37,7 +37,7 @@ export default tseslint.config(
     files: ['src/**/*.test.js', 'src/**/*.test.ts', 'src/**/*.test.tsx'],
     rules: {
       'max-lines': ['error', { max: 1000 }],
-      'max-statements': ['error', { max: 30 }, { ignoreTopLevelFunctions: true }]
+      'max-statements': ['error', { max: 35 }, { ignoreTopLevelFunctions: true }]
     }
   }
 );

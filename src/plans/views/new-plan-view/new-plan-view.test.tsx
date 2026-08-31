@@ -1,9 +1,13 @@
-import { customRender, screen } from '@src/base/services/testing';
+import { customRender, fireEvent, screen, TestingRouter } from '@src/base/services/testing';
 import NewPlanView from './new-plan-view';
 
 describe('New Plan View', () => {
   function mount() {
-    return customRender(<NewPlanView />);
+    return customRender(
+      <TestingRouter routePath="/plans/new" currentRoute="/plans/new">
+        <NewPlanView />
+      </TestingRouter>
+    );
   }
 
   beforeEach(() => {
@@ -36,10 +40,13 @@ describe('New Plan View', () => {
     await user.type(screen.getByRole('textbox', { name: 'Alíquota média de impostos' }), '1500');
     await user.click(screen.getByRole('button', { name: 'Próxima' }));
     expect(screen.getByRole('heading', { level: 2, name: 'Renda mensal desejada' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Próxima' })).toBeDisabled();
+    expect(screen.getByRole('link', { name: 'Concluir' })).toHaveAttribute('aria-disabled', 'true');
+    fireEvent.click(screen.getByRole('link', { name: 'Concluir' }));
     await user.type(screen.getByRole('textbox', { name: 'Valor da renda mensal desejada' }), '500000');
-    expect(screen.getByRole('button', { name: 'Próxima' })).toBeEnabled();
-    expect(JSON.parse(window.localStorage.getItem('wt_planRetirementWizardFormData') as string)).toEqual({
+    const doneButton = screen.getByRole('link', { name: 'Concluir' });
+    expect(doneButton).toHaveAttribute('aria-disabled', 'false');
+    expect(doneButton).toHaveAttribute('href', '/plans/temp');
+    expect(JSON.parse(window.localStorage.getItem('wt_retirementPlanFormData') as string)).toEqual({
       initialBalanceAvailability: 'balance_available',
       initialBalance: 10000,
       monthlyDeposit: 2000,

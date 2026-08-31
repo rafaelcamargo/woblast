@@ -4,8 +4,10 @@ import translations from './wizard-step.t';
 
 export type WizardStepProps = {
   stepName: React.ReactNode
-  nextStepButtonLabel?: string
+  nextButtonLabel?: React.ReactNode
   nextButtonDisabled?: boolean
+  nextButtonElement?: React.ElementType
+  nextButtonTo?: string
   onPreviousButtonClick?: () => void
   onNextButtonClick?: () => void
   hasPreviousStep?: boolean
@@ -14,8 +16,10 @@ export type WizardStepProps = {
 
 export const WizardStep = ({
   stepName,
-  nextStepButtonLabel,
+  nextButtonLabel,
   nextButtonDisabled,
+  nextButtonElement,
+  nextButtonTo,
   onPreviousButtonClick,
   onNextButtonClick,
   hasPreviousStep,
@@ -26,8 +30,10 @@ export const WizardStep = ({
       <h2>{stepName}</h2>
       {children}
       <WizardStepFooter
-        nextStepButtonLabel={nextStepButtonLabel}
+        nextButtonLabel={nextButtonLabel}
         nextButtonDisabled={nextButtonDisabled}
+        nextButtonElement={nextButtonElement}
+        nextButtonTo={nextButtonTo}
         onPreviousButtonClick={onPreviousButtonClick}
         onNextButtonClick={onNextButtonClick}
         hasPreviousStep={hasPreviousStep}
@@ -37,16 +43,20 @@ export const WizardStep = ({
 };
 
 type WizardStepFooterProps = {
-  nextStepButtonLabel?: string
+  nextButtonLabel?: React.ReactNode
   nextButtonDisabled?: boolean
+  nextButtonElement?: React.ElementType
+  nextButtonTo?: string
   onPreviousButtonClick?: () => void
   onNextButtonClick?: () => void
   hasPreviousStep?: boolean
 }
 
 const WizardStepFooter = ({
-  nextStepButtonLabel,
+  nextButtonLabel,
   nextButtonDisabled,
+  nextButtonElement,
+  nextButtonTo,
   onPreviousButtonClick,
   onNextButtonClick,
   hasPreviousStep
@@ -64,10 +74,12 @@ const WizardStepFooter = ({
         </Button>
       )}
       <Button
+        element={nextButtonElement}
+        to={nextButtonTo}
         onClick={onNextButtonClick}
         disabled={nextButtonDisabled}
       >
-        {nextStepButtonLabel || t('next')}
+        {nextButtonLabel || t('next')}
       </Button>
     </div>
   );
