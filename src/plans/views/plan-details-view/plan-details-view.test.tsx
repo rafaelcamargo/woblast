@@ -46,7 +46,7 @@ describe('Plan Details View', () => {
     mockPlanFormData(buildPlanFormData());
     mount({ currentRoute: '/plans/temp' });
     expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
-    expect(screen.getByText('Você poderá se aposentar em fevereiro de 2047 quando o montante alcançar R$ 1.811.536,79 e estiver rendendo R$ 12.076,41 ao mês, já descontados os impostos.')).toBeInTheDocument();
+    expect(document.getElementById('retirementResultDescription')?.textContent).toEqual('Você poderá se aposentar em fevereiro de 2047 quando o montante alcançar R$\u00a01.811.536,79 e estiver rendendo R$\u00a012.076,41 ao mês, já descontados os impostos.');
   });
 
   it('should not calculate a retirement result when the plan id is not temporary', () => {
@@ -55,6 +55,6 @@ describe('Plan Details View', () => {
     mount({ currentRoute: '/plans/abc' });
     expect(retirementService.buildPlan).not.toHaveBeenCalled();
     expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
-    expect(screen.queryByText('Você poderá se aposentar em fevereiro de 2047 quando o montante alcançar R$ 1.811.536,79 e estiver rendendo R$ 12.076,41 ao mês, já descontados os impostos.')).not.toBeInTheDocument();
+    expect(document.getElementById('retirementResultDescription')).not.toBeInTheDocument();
   });
 });

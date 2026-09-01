@@ -15,23 +15,21 @@ const PlanDetailsView = () => {
   const plan = buildPlan(planId);
 
   return (
-    <>
+    <div className='wt-plan-details-view'>
       <Topbar midSlot={<Logo />} />
       <ViewContainer>
-        <div className='wt-plan-details-view'>
-          <h1>{t('plan_created')}</h1>
-          {plan && (
-            <p>
-              {t('retirement_result_description', {
-                retirementDate: formatRetirementDate(plan.date, formatMonthYear),
-                retirementBalance: formatCurrency(plan.balance),
-                retirementIncome: formatCurrency(plan.interests)
-              })}
-            </p>
-          )}
-        </div>
+        <h1>{t('plan_created')}</h1>
+        {plan && (
+          <p id="retirementResultDescription">
+            {t('retirement_result_description', {
+              retirementDate: <b>{formatRetirementDate(plan.date, formatMonthYear)}</b>,
+              retirementBalance: <b>{formatCurrency(plan.balance)}</b>,
+              retirementIncome: <b>{formatCurrency(plan.interests)}</b>
+            })}
+          </p>
+        )}
       </ViewContainer>
-    </>
+    </div>
   );
 };
 
