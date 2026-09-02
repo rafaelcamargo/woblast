@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import localStorageService from '@src/base/services/local-storage';
 
 export function useLocalStorageState<T>(key: string, initialValue: T): [T, (newState: T) => void] {
@@ -7,6 +7,11 @@ export function useLocalStorageState<T>(key: string, initialValue: T): [T, (newS
     localStorageService.set(key, newState);
     setState(newState);
   };
+
+  useEffect(() => {
+    localStorageService.set(key, state);
+  }, []);
+
   return [state, handleStateChange];
 }
 

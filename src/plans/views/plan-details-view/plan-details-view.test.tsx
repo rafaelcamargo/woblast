@@ -23,6 +23,7 @@ describe('Plan Details View', () => {
 
   function buildPlanFormData(): RetirementPlanFormData {
     return {
+      id: 'a1B2c3',
       initialBalanceAvailability: 'balance_available',
       initialBalance: 10000,
       monthlyDeposit: 2000,
@@ -44,7 +45,7 @@ describe('Plan Details View', () => {
 
   it('should show the retirement result calculated from the temporary plan stored in local storage', () => {
     mockPlanFormData(buildPlanFormData());
-    mount({ currentRoute: '/plans/temp' });
+    mount({ currentRoute: '/plans/a1B2c3' });
     expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
     expect(document.getElementById('retirementResultDescription')?.textContent).toEqual('Você poderá se aposentar em fevereiro de 2047 quando o montante alcançar R$\u00a01.811.536,79 e estiver rendendo R$\u00a012.076,41 ao mês, já descontados os impostos.');
   });

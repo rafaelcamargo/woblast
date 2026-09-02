@@ -4,6 +4,7 @@ import { App } from './app';
 describe('App', () => {
   function buildPlanFormDataMock() {
     return {
+      id: 'a1B2c3',
       initialBalanceAvailability: 'balance_available',
       initialBalance: 10000,
       monthlyDeposit: 2000,
@@ -41,7 +42,7 @@ describe('App', () => {
 
   it('should render plan details view', async () => {
     window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(buildPlanFormDataMock()));
-    mockRoute('/plans/temp');
+    mockRoute('/plans/a1B2c3');
     customRender(<App />);
     expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
   });

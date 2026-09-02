@@ -24,7 +24,7 @@ export const PlanRetirementWizardStep6 = ({
     <WizardStep
       stepName={t('desired_monthly_income')}
       nextButtonElement={Link}
-      nextButtonTo="/plans/temp"
+      nextButtonTo={`/plans/${formData.id}`}
       nextButtonLabel={t('done')}
       hasPreviousStep={hasPreviousStep}
       nextButtonDisabled={!(Number(formData.desiredMonthlyIncome) > 0)}

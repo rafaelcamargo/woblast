@@ -1,7 +1,7 @@
 import { useTranslation } from '@compilorama/polang';
 import { useParams } from 'react-router-dom';
-import { useFormatter } from '@src/base/hooks/useFormatter';
-import localStorageService from '@src/base/services/local-storage';
+import { useFormatter } from '@src/base/hooks/use-formatter';
+import plansResource from '@src/plans/resources/plans';
 import retirementService from '@src/plans/services/retirement';
 import { Logo } from '@src/base/components/logo/logo';
 import { Topbar } from '@src/base/components/topbar/topbar';
@@ -34,9 +34,8 @@ const PlanDetailsView = () => {
 };
 
 function buildPlan(planId?: string) {
-  return planId === 'temp'
-    ? retirementService.buildPlan(localStorageService.get('wt_retirementPlanFormData'))
-    : null;
+  const formData = plansResource.find(planId);
+  return formData ? retirementService.buildPlan(formData) : null;
 }
 
 function formatRetirementDate(date: string, formatMonthYear: ReturnType<typeof useFormatter>['formatMonthYear']) {
