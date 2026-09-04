@@ -6,6 +6,7 @@ import retirementService from '@src/plans/services/retirement';
 import { Logo } from '@src/base/components/logo/logo';
 import { Topbar } from '@src/base/components/topbar/topbar';
 import { ViewContainer } from '@src/base/components/view-container/view-container';
+import RetirementPlanList from '@src/plans/components/retirement-plan-list/retirement-plan-list';
 import translations from './plan-details-view.t';
 
 const PlanDetailsView = () => {
@@ -20,13 +21,16 @@ const PlanDetailsView = () => {
       <ViewContainer>
         <h1>{t('plan_created')}</h1>
         {plan && (
-          <p id="retirementResultDescription">
-            {t('retirement_result_description', {
-              retirementDate: <b>{formatRetirementDate(plan.date, formatMonthYear)}</b>,
-              retirementBalance: <b>{formatCurrency(plan.balance)}</b>,
-              retirementIncome: <b>{formatCurrency(plan.interests)}</b>
-            })}
-          </p>
+          <>
+            <p id="retirementResultDescription">
+              {t('retirement_result_description', {
+                retirementDate: <b>{formatRetirementDate(plan.date, formatMonthYear)}</b>,
+                retirementBalance: <b>{formatCurrency(plan.balance)}</b>,
+                retirementIncome: <b>{formatCurrency(plan.interests)}</b>
+              })}
+            </p>
+            <RetirementPlanList months={plan.months} />
+          </>
         )}
       </ViewContainer>
     </div>

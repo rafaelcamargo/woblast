@@ -21,5 +21,14 @@ export function useFormatter() {
       year: yearFormat
     }).format(new Date(Number(year), Number(month) - 1));
   };
-  return { formatCurrency, formatMonthYear };
+  const formatMonth = (date: Date, monthFormat: Intl.DateTimeFormatOptions['month']) => {
+    return new Intl.DateTimeFormat(locale.code, { month: monthFormat }).format(date);
+  };
+  const formatNumber = (value: number) => {
+    return new Intl.NumberFormat(locale.code, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+  };
+  return { formatCurrency, formatMonthYear, formatMonth, formatNumber };
 }

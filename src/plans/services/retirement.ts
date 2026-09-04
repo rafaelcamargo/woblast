@@ -6,13 +6,14 @@ type RetirementService = {
   buildPlan: (data: RetirementPlanFormData) => RetirementPlan
 }
 
-type RetirementPlan = {
+export type RetirementPlan = {
   date: string
   balance: number
   interests: number
+  months: SimulationMonth[]
 }
 
-type SimulationMonth = {
+export type SimulationMonth = {
   id: number
   date: Date
   balance: number
@@ -24,11 +25,13 @@ const _public = {} as RetirementService;
 
 _public.buildPlan = data => {
   const retirementPlanParams = buildRetirementParams(data);
-  const lastMonth = simulate(buildInitialMonth(retirementPlanParams), retirementPlanParams);
+  const months = simulate(buildInitialMonth(retirementPlanParams), retirementPlanParams);
+  const [lastMonth] = months.slice(-1);
   return {
     date: formatPlanDate(lastMonth.date),
     balance: lastMonth.balance,
-    interests: lastMonth.interests
+    interests: lastMonth.interests,
+    months
   };
 };
 
@@ -43,15 +46,24 @@ function buildRetirementParams(data: RetirementPlanFormData): RetirementPlanPara
   } as RetirementPlanParams;
 }
 
-function simulate(currentMonth: SimulationMonth, options: RetirementPlanParams): SimulationMonth {
+function simulate(
+  currentMonth: SimulationMonth,
+  options: RetirementPlanParams,
+  months: SimulationMonth[] = []
+): SimulationMonth[] {
   return currentMonth.interests > options.desiredMonthlyIncome
-    ? currentMonth
-    : simulateNextMonth(currentMonth, options);
+    ? months
+    : simulateNextMonth(currentMonth, options, months);
 }
 
-function simulateNextMonth(currentMonth: SimulationMonth, options: RetirementPlanParams) {
+function simulateNextMonth(
+  currentMonth: SimulationMonth,
+  options: RetirementPlanParams,
+  months: SimulationMonth[]
+) {
   const nextOptions = shouldAdjustYearlyValues(currentMonth) ? applyInflation(options) : options;
-  return simulate(calculatePerformance(currentMonth, nextOptions), nextOptions);
+  const nextMonth = calculatePerformance(currentMonth, nextOptions);
+  return simulate(nextMonth, nextOptions, [...months, nextMonth]);
 }
 
 function shouldAdjustYearlyValues({ id }: SimulationMonth) {
