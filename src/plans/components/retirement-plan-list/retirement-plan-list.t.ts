@@ -7,7 +7,8 @@ const translations: Translations = {
     month: 'Mês',
     deposit: 'Depósito',
     balance: 'Montante',
-    interests: 'Rendimentos'
+    interests: 'Rendimentos',
+    table_caption: 'Simulação de {{year}}'
   }
 };
 

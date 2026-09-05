@@ -1,4 +1,3 @@
-import '@src/plans/index.styl';
 import { Logo } from '@src/base/components/logo/logo';
 import { Topbar } from '@src/base/components/topbar/topbar';
 import { ViewContainer } from '@src/base/components/view-container/view-container';

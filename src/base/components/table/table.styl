@@ -1,0 +1,64 @@
+@require 'mixins.styl'
+
+.wt-table-wrapper
+  &:after
+    content ''
+    position absolute
+    top 0
+    bottom 0
+    right 0
+    width 20px
+    background linear-gradient(to right, transparent, var(--wt-color-gray-lighter))
+    z-index 1
+
+.wt-table-container
+  position relative
+  left -20px
+  width 100vw
+  padding 0 20px 0 10px
+  box-sizing border-box
+  overflow-x auto
+
+.wt-table
+  position relative
+  width 100%
+  background-color var(--wt-color-lightest)
+  border 1px solid var(--wt-color-gray-light)
+  border-collapse collapse
+  caption
+    position absolute
+    overflow hidden
+    margin -1px
+    padding 0
+    width 1px
+    height 1px
+    border 0
+    white-space nowrap
+    clip rect(0, 0, 0, 0)
+  th
+    padding 20px 24px
+    color var(--wt-color-gray-mid-dark)
+    font-size var(--wt-font-size-xxs)
+    font-weight 700
+    text-transform uppercase
+  td
+    padding 20px 24px
+    border-top 1px solid var(--wt-color-gray-light)
+    font-size var(--wt-font-size-sm)
+
++breakpoint('sm')
+  .wt-table-wrapper
+    &:after
+      width 0
+
+  .wt-table-container
+    position relative
+    left 0
+    padding 0
+    width auto
+    border 1px solid var(--wt-color-gray-light)
+    border-radius 12px
+    overflow hidden
+
+  .wt-table
+    border 0

@@ -22,7 +22,7 @@ export function useFormatter() {
     }).format(new Date(Number(year), Number(month) - 1));
   };
   const formatMonth = (date: Date, monthFormat: Intl.DateTimeFormatOptions['month']) => {
-    return new Intl.DateTimeFormat(locale.code, { month: monthFormat }).format(date);
+    return new Intl.DateTimeFormat(locale.code, { month: monthFormat }).format(date).replace('.', '');
   };
   const formatNumber = (value: number) => {
     return new Intl.NumberFormat(locale.code, {

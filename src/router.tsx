@@ -3,9 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routes from '@src/routes';
 
 const HomeView = lazy(() => import('@src/home/views/home-view/home-view'));
-const NewPlanView = lazy(() => import('@src/plans/views/new-plan-view/new-plan-view'));
-const PlanDetailsView = lazy(() => import('@src/plans/views/plan-details-view/plan-details-view'));
-const PlansView = lazy(() => import('@src/plans/views/plans-view/plans-view'));
+const PlansViews = lazy(() => import('@src/plans'));
 
 export const Router = () => {
   return (
@@ -31,9 +29,7 @@ export const Router = () => {
 function getViewComponentByViewName(viewName: string) {
   const View = {
     home: HomeView,
-    'new-plan': NewPlanView,
-    'plan-details': PlanDetailsView,
-    plans: PlansView
+    plans: PlansViews
   }[viewName];
   return (
     <Suspense fallback={<></>}>

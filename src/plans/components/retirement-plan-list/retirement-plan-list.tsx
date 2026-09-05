@@ -3,6 +3,7 @@ import { useTranslation } from '@compilorama/polang';
 import { useFormatter } from '@src/base/hooks/use-formatter';
 import type { SimulationMonth } from '@src/plans/services/retirement';
 import { Button } from '@src/base/components/button/button';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@src/base/components/table/table';
 import translations from './retirement-plan-list.t';
 
 type RetirementPlanListProps = {
@@ -38,28 +39,29 @@ const RetirementPlanList = ({ months }: RetirementPlanListProps) => {
           {t('next_year')}
         </Button>
       </div>
-      <div className='wt-retirement-plan-list-table'>
-        <table>
-          <thead>
-            <tr>
-              <th>{t('month')}</th>
-              <th>{t('deposit')}</th>
-              <th>{t('balance')}</th>
-              <th>{t('interests')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filterMonthsByYear(months, selectedYear).map(month => (
-              <tr key={month.id}>
-                <td>{formatMonth(month.date, 'short')}</td>
-                <td>{formatNumber(month.deposit)}</td>
-                <td>{formatNumber(month.balance)}</td>
-                <td>{formatNumber(month.interests)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table
+        className='wt-retirement-plan-list-table'
+        caption={t('table_caption', { year: selectedYear })}
+      >
+        <thead>
+          <TableRow>
+            <TableHead>{t('month')}</TableHead>
+            <TableHead>{t('deposit')}</TableHead>
+            <TableHead>{t('balance')}</TableHead>
+            <TableHead>{t('interests')}</TableHead>
+          </TableRow>
+        </thead>
+        <TableBody>
+          {filterMonthsByYear(months, selectedYear).map(month => (
+            <TableRow key={month.id}>
+              <TableCell>{formatMonth(month.date, 'short')}</TableCell>
+              <TableCell>{formatNumber(month.deposit)}</TableCell>
+              <TableCell>{formatNumber(month.balance)}</TableCell>
+              <TableCell>{formatNumber(month.interests)}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

@@ -69,7 +69,7 @@ describe('Plan Details View', () => {
     expect(screen.getByRole('columnheader', { name: 'Montante' })).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: 'Rendimentos' })).toBeInTheDocument();
     const firstRowCells = within(screen.getAllByRole('row')[1]).getAllByRole('cell');
-    expect(firstRowCells[0]).toHaveTextContent('jan.');
+    expect(firstRowCells[0]).toHaveTextContent('jan');
     expect(firstRowCells[1]).toHaveTextContent('2.000,00');
     expect(firstRowCells[2]).toHaveTextContent('82.538,33');
     expect(firstRowCells[3]).toHaveTextContent('538,33');
@@ -79,7 +79,7 @@ describe('Plan Details View', () => {
     expect(screen.getByRole('button', { name: 'Próximo Ano' })).toBeDisabled();
     const rows = screen.getAllByRole('row');
     const lastRowCells = within(rows[rows.length - 1]).getAllByRole('cell');
-    expect(lastRowCells[0]).toHaveTextContent('jun.');
+    expect(lastRowCells[0]).toHaveTextContent('jun');
     expect(lastRowCells[1]).toHaveTextContent('2.090,00');
     expect(lastRowCells[2]).toHaveTextContent('128.948,74');
     expect(lastRowCells[3]).toHaveTextContent('847,95');

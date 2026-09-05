@@ -1,4 +1,3 @@
-import '@src/plans/index.styl';
 import { useTranslation } from '@compilorama/polang';
 import { Logo } from '@src/base/components/logo/logo';
 import { Topbar } from '@src/base/components/topbar/topbar';
