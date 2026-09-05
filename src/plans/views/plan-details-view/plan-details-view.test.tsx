@@ -87,4 +87,54 @@ describe('Plan Details View', () => {
     expect(screen.getByText('2026')).toBeInTheDocument();
     expect(screen.queryByText('2027')).not.toBeInTheDocument();
   });
+
+  it('should be able to save plan params into plans collection', async () => {
+    mockPlanFormData(buildPlanFormData());
+    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    await user.click(screen.getByRole('button', { name: 'Salvar' }));
+    expect(JSON.parse(window.localStorage.getItem('wt_plans') as string)).toEqual([{
+      initialBalance: 80000,
+      monthlyDeposit: 2000,
+      averageAnnualReturn: 9.5,
+      averageAnnualInflation: 4.5,
+      averageTaxRate: 15,
+      desiredMonthlyIncome: 800,
+      created_at: new Date(2025, 11, 30).toISOString()
+    }]);
+  });
+
+  it('should add aditional plan params into plans collection', async () => {
+    window.localStorage.setItem('wt_plans', JSON.stringify([{
+      initialBalance: 10000,
+      monthlyDeposit: 500,
+      averageAnnualReturn: 8,
+      averageAnnualInflation: 4,
+      averageTaxRate: 15,
+      desiredMonthlyIncome: 400,
+      created_at: '2024-01-15T00:00:00.000Z'
+    }]));
+    mockPlanFormData(buildPlanFormData());
+    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    await user.click(screen.getByRole('button', { name: 'Salvar' }));
+    expect(JSON.parse(window.localStorage.getItem('wt_plans') as string)).toEqual([
+      {
+        initialBalance: 10000,
+        monthlyDeposit: 500,
+        averageAnnualReturn: 8,
+        averageAnnualInflation: 4,
+        averageTaxRate: 15,
+        desiredMonthlyIncome: 400,
+        created_at: '2024-01-15T00:00:00.000Z'
+      },
+      {
+        initialBalance: 80000,
+        monthlyDeposit: 2000,
+        averageAnnualReturn: 9.5,
+        averageAnnualInflation: 4.5,
+        averageTaxRate: 15,
+        desiredMonthlyIncome: 800,
+        created_at: new Date(2025, 11, 30).toISOString()
+      }
+    ]);
+  });
 });

@@ -30,7 +30,8 @@ export default tseslint.config(
       complexity: ['error', { max: 3 }],
       'max-lines': ['error', { max: 150 }],
       'max-statements': ['error', { max: 8 }, { ignoreTopLevelFunctions: true }],
-      'react/prop-types': 0
+      'react/prop-types': 0,
+      '@typescript-eslint/no-unused-expressions': 0
     }
   },
   {
