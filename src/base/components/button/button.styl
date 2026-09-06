@@ -3,6 +3,8 @@
   align-items center
   padding 0 32px
   height 40px
+  background-color var(--wt-color-gray-light)
+  color var(--wt-color-gray-dark)
   font-family var(--wt-font-family-primary)
   font-size var(--wt-font-size-sm)
   font-weight 700
@@ -14,9 +16,11 @@
   &.is-primary
     background-color var(--wt-color-primary)
     color var(--wt-color-lightest)
+    --wt-color-icon var(--wt-color-lightest)
   &.is-secondary
     background-color var(--wt-color-blue-light)
     color var(--wt-color-blue-mid-dark)
+    --wt-color-icon var(--wt-color-blue-mid-dark)
   &:disabled,
   &[aria-disabled="true"]
     background-color var(--wt-color-gray-light)

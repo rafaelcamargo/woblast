@@ -74,6 +74,7 @@ const WizardStepFooter = ({
         </Button>
       )}
       <Button
+        theme='primary'
         element={nextButtonElement}
         to={nextButtonTo}
         onClick={onNextButtonClick}
