@@ -92,6 +92,18 @@ describe('Plan Details View', () => {
     mockPlanFormData(buildPlanFormData());
     const { user } = mount({ currentRoute: '/plans/a1B2c3' });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByRole('heading', { name: 'Salvar plano' })).toBeInTheDocument();
+    expect(within(dialog).getByRole('button', { name: 'Fechar' })).toBeInTheDocument();
+    expect(window.localStorage.getItem('wt_plans')).toBeNull();
+    const saveButton = within(dialog).getByRole('button', { name: 'Salvar' });
+    expect(saveButton).toBeDisabled();
+    await user.type(within(dialog).getByRole('textbox', { name: 'Nome do plano' }), '   ');
+    expect(saveButton).toBeDisabled();
+    await user.clear(within(dialog).getByRole('textbox', { name: 'Nome do plano' }));
+    await user.type(within(dialog).getByRole('textbox', { name: 'Nome do plano' }), 'Plan 1');
+    expect(saveButton).toBeEnabled();
+    await user.click(saveButton);
     expect(JSON.parse(window.localStorage.getItem('wt_plans') as string)).toEqual([{
       initialBalance: 80000,
       monthlyDeposit: 2000,
@@ -99,6 +111,7 @@ describe('Plan Details View', () => {
       averageAnnualInflation: 4.5,
       averageTaxRate: 15,
       desiredMonthlyIncome: 800,
+      name: 'Plan 1',
       created_at: new Date(2025, 11, 30).toISOString()
     }]);
   });
@@ -116,6 +129,16 @@ describe('Plan Details View', () => {
     mockPlanFormData(buildPlanFormData());
     const { user } = mount({ currentRoute: '/plans/a1B2c3' });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByRole('heading', { name: 'Salvar plano' })).toBeInTheDocument();
+    const saveButton = within(dialog).getByRole('button', { name: 'Salvar' });
+    expect(saveButton).toBeDisabled();
+    await user.type(within(dialog).getByRole('textbox', { name: 'Nome do plano' }), '   ');
+    expect(saveButton).toBeDisabled();
+    await user.clear(within(dialog).getByRole('textbox', { name: 'Nome do plano' }));
+    await user.type(within(dialog).getByRole('textbox', { name: 'Nome do plano' }), 'Plan 1');
+    expect(saveButton).toBeEnabled();
+    await user.click(saveButton);
     expect(JSON.parse(window.localStorage.getItem('wt_plans') as string)).toEqual([
       {
         initialBalance: 10000,
@@ -133,6 +156,7 @@ describe('Plan Details View', () => {
         averageAnnualInflation: 4.5,
         averageTaxRate: 15,
         desiredMonthlyIncome: 800,
+        name: 'Plan 1',
         created_at: new Date(2025, 11, 30).toISOString()
       }
     ]);
