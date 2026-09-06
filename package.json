@@ -8,7 +8,8 @@
     "build": "vite build",
     "test": "jest",
     "format": "eslint ./src",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "check": "npm run format && npm run tsc && npm run test -- --coverage"
   },
   "dependencies": {
     "@compilorama/polang": "^0.5.2",
