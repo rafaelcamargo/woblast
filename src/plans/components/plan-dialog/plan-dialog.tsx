@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
 import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
 import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
+import useCustomHistoryModule from '@src/base/hooks/use-custom-history';
 import plansResource from '@src/plans/resources/plans';
 import { Button } from '@src/base/components/button/button';
 import { Dialog } from '@src/base/components/dialog/dialog';
@@ -15,18 +16,17 @@ type PlanDialogProps = {
 
 const PlanDialog = ({ open, formData, onClose }: PlanDialogProps) => {
   const { t } = useTranslation(translations);
+  const customHistory = useCustomHistoryModule.useCustomHistory();
   const [planName, setPlanName] = useState('');
-
   const handleNameChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setPlanName(target.value);
   };
-
-  const handleSave = () => {
+  const savePlan = () => {
     plansResource.save({
       ...buildRetirementParams(formData as RetirementPlanFormData),
       name: planName.trim()
     });
-    onClose();
+    customHistory.push('/plans');
   };
 
   return (
@@ -46,7 +46,7 @@ const PlanDialog = ({ open, formData, onClose }: PlanDialogProps) => {
         <div className='wt-plan-dialog-actions'>
           <Button
             theme='primary'
-            onClick={handleSave}
+            onClick={savePlan}
             disabled={!planName.trim()}
           >
             {t('save')}

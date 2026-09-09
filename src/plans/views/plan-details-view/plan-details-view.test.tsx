@@ -1,5 +1,6 @@
 import { customRender, screen, TestingRouter, within } from '@src/base/services/testing';
 import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
+import useCustomHistoryMock from '@src/base/mocks/useCustomHistory';
 import dateService from '@src/base/services/date';
 import retirementService from '@src/plans/services/retirement';
 import PlanDetailsView from './plan-details-view';
@@ -40,6 +41,7 @@ describe('Plan Details View', () => {
   });
 
   afterEach(() => {
+    useCustomHistoryMock.deactivate();
     jest.restoreAllMocks();
   });
 
@@ -88,7 +90,17 @@ describe('Plan Details View', () => {
     expect(screen.queryByText('2027')).not.toBeInTheDocument();
   });
 
+  it('should close plan dialog when close button is clicked', async () => {
+    mockPlanFormData(buildPlanFormData());
+    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    await user.click(screen.getByRole('button', { name: 'Salvar' }));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Fechar' }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
   it('should be able to save plan params into plans collection', async () => {
+    useCustomHistoryMock.activate();
     mockPlanFormData(buildPlanFormData());
     const { user } = mount({ currentRoute: '/plans/a1B2c3' });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
@@ -114,9 +126,11 @@ describe('Plan Details View', () => {
       name: 'Plan 1',
       created_at: new Date(2025, 11, 30).toISOString()
     }]);
+    expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
   });
 
   it('should add aditional plan params into plans collection', async () => {
+    useCustomHistoryMock.activate();
     window.localStorage.setItem('wt_plans', JSON.stringify([{
       initialBalance: 10000,
       monthlyDeposit: 500,
@@ -160,5 +174,6 @@ describe('Plan Details View', () => {
         created_at: new Date(2025, 11, 30).toISOString()
       }
     ]);
+    expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
   });
 });
