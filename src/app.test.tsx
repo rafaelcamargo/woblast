@@ -32,6 +32,7 @@ describe('App', () => {
     expect(await screen.findByRole('heading', { name: 'Meus Planos' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Você ainda não tem um plano' })).toBeInTheDocument();
     expect(screen.getByText('Quanto antes você começa, mais fácil fica a caminhada. Construa seu plano agora mesmo!')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Criar Plano' })).toHaveAttribute('href', '/plans/new');
   });
 
   it('should render plans new view', async () => {

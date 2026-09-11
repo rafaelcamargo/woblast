@@ -5,6 +5,7 @@ import localStorageService from '@src/base/services/local-storage';
 
 type PlansResource = {
   find: (id?: string) => RetirementPlanFormData | undefined
+  get: () => RetirementPlanParams[]
   save: (planParams: RetirementPlanParams) => void
 };
 
@@ -13,6 +14,10 @@ const _public = {} as PlansResource;
 _public.find = id => {
   const plan = localStorageService.get('wt_retirementPlanFormData');
   return plan?.id === id ? plan : undefined;
+};
+
+_public.get = () => {
+  return localStorageService.get('wt_plans') || [];
 };
 
 _public.save = planParams => {

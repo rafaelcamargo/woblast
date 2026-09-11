@@ -30,5 +30,14 @@ export function useFormatter() {
       maximumFractionDigits: 2
     }).format(value);
   };
-  return { formatCurrency, formatMonthYear, formatMonth, formatNumber };
+  const formatDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const day = date.getDate();
+    const month = new Intl.DateTimeFormat(locale.code, { month: 'short' })
+      .format(date)
+      .replace('.', '')
+      .toUpperCase();
+    return `${day} ${month} ${date.getFullYear()}`;
+  };
+  return { formatCurrency, formatMonthYear, formatMonth, formatNumber, formatDate };
 }
