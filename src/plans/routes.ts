@@ -4,6 +4,10 @@ export default [
     name: 'new-plan'
   },
   {
+    path: 'preview',
+    name: 'plan-preview'
+  },
+  {
     path: ':planId',
     name: 'plan-details'
   },

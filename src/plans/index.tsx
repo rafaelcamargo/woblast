@@ -5,7 +5,7 @@ import NewPlanView from '@src/plans/views/new-plan-view/new-plan-view';
 import PlanDetailsView from '@src/plans/views/plan-details-view/plan-details-view';
 import PlansView from '@src/plans/views/plans-view/plans-view';
 
-type ViewName = 'new-plan' | 'plan-details' | 'plans';
+type ViewName = 'new-plan' | 'plan-preview' | 'plan-details' | 'plans';
 
 const PlansViews = () => {
   return (
@@ -24,6 +24,7 @@ const PlansViews = () => {
 function getViewComponentByViewName(viewName: ViewName) {
   const View = {
     'new-plan': NewPlanView,
+    'plan-preview': PlanDetailsView,
     'plan-details': PlanDetailsView,
     plans: PlansView
   }[viewName];

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useLocalStorageState } from '@src/base/hooks/use-local-storage-state';
-import idService from '@src/base/services/id';
 import type { NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { Wizard } from '@src/base/components/wizard/wizard';
 import { PlanRetirementWizardStep1 } from '@src/plans/components/plan-retirement-wizard-step-1/plan-retirement-wizard-step-1';
@@ -14,7 +13,6 @@ import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-fo
 export const PlanRetirementWizard = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useLocalStorageState<RetirementPlanFormData>('wt_retirementPlanFormData', {
-    id: idService.generateId(),
     initialBalanceAvailability: 'balance_unavailable',
     initialBalance: 0,
     monthlyDeposit: 0,

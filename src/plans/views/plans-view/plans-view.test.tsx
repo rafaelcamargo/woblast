@@ -1,5 +1,5 @@
 import { customRender, screen, TestingRouter } from '@src/base/services/testing';
-import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
+import type { PlanParams } from '@src/plans/types/plan-params';
 import PlansView from './plans-view';
 
 describe('Plans View', () => {
@@ -11,8 +11,12 @@ describe('Plans View', () => {
     );
   }
 
-  function buildPlan(overrides: Partial<RetirementPlanParams> = {}): RetirementPlanParams {
+  function buildPlan(overrides: Partial<PlanParams> = {}): PlanParams {
     return {
+      id: 'plan1id',
+      name: 'Plan 1',
+      type: 'retirement',
+      created_at: new Date(2026, 7, 18).toISOString(),
       initialBalance: 10000,
       monthlyDeposit: 500,
       averageAnnualReturn: 8,
@@ -25,11 +29,9 @@ describe('Plans View', () => {
 
   function mockPlans() {
     window.localStorage.setItem('wt_plans', JSON.stringify([
+      buildPlan(),
       buildPlan({
-        name: 'Plan 1',
-        created_at: new Date(2026, 7, 18).toISOString()
-      }),
-      buildPlan({
+        id: 'plan2id',
         name: 'Plan 2',
         created_at: new Date(2026, 2, 10).toISOString()
       })

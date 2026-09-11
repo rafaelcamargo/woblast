@@ -5,6 +5,4 @@ export type RetirementPlanParams = {
   averageAnnualInflation: number;
   averageTaxRate: number;
   desiredMonthlyIncome: number;
-  name?: string;
-  created_at?: string;
 };

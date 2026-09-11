@@ -15,7 +15,7 @@ export const PlansList = () => {
   return (
     <ul className='wt-plans-list'>
       {plans.map(plan => (
-        <li key={`${plan.created_at}${plan.name}`}>
+        <li key={plan.id}>
           <Card>
             <div className='wt-plans-list-item'>
               <PlanIcon />

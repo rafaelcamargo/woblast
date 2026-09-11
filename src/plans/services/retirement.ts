@@ -1,9 +1,11 @@
+import type { PlanParams } from '@src/plans/types/plan-params';
 import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
 import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
 import dateService from '@src/base/services/date';
 
 type RetirementService = {
-  buildPlan: (data: RetirementPlanFormData) => RetirementPlan
+  buildPlan: (params: RetirementPlanParams) => RetirementPlan
+  convertToRetirementPlanParams: (data: RetirementPlanFormData | PlanParams) => RetirementPlanParams
 }
 
 export type RetirementPlan = {
@@ -23,9 +25,8 @@ export type SimulationMonth = {
 
 const _public = {} as RetirementService;
 
-_public.buildPlan = data => {
-  const retirementPlanParams = buildRetirementParams(data);
-  const months = simulate(buildInitialMonth(retirementPlanParams), retirementPlanParams);
+_public.buildPlan = params => {
+  const months = simulate(buildInitialMonth(params), params);
   const [lastMonth] = months.slice(-1);
   return {
     date: formatPlanDate(lastMonth.date),
@@ -35,16 +36,16 @@ _public.buildPlan = data => {
   };
 };
 
-function buildRetirementParams(data: RetirementPlanFormData): RetirementPlanParams {
+_public.convertToRetirementPlanParams = data => {
   return {
-    initialBalance: data.initialBalance,
-    monthlyDeposit: data.monthlyDeposit,
-    averageAnnualReturn: data.averageAnnualReturn,
-    averageAnnualInflation: data.averageAnnualInflation,
-    averageTaxRate: data.averageTaxRate,
-    desiredMonthlyIncome: data.desiredMonthlyIncome
-  } as RetirementPlanParams;
-}
+    initialBalance: data.initialBalance as number,
+    monthlyDeposit: data.monthlyDeposit as number,
+    averageAnnualReturn: data.averageAnnualReturn as number,
+    averageAnnualInflation: data.averageAnnualInflation as number,
+    averageTaxRate: data.averageTaxRate as number,
+    desiredMonthlyIncome: data.desiredMonthlyIncome as number
+  };
+};
 
 function simulate(
   currentMonth: SimulationMonth,

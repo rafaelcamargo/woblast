@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
 import { useParams } from 'react-router-dom';
-import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
 import { useFormatter } from '@src/base/hooks/use-formatter';
 import plansResource from '@src/plans/resources/plans';
 import retirementService from '@src/plans/services/retirement';
+import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
 import { Button } from '@src/base/components/button/button';
 import { Logo } from '@src/base/components/logo/logo';
 import { Topbar } from '@src/base/components/topbar/topbar';
@@ -13,19 +13,16 @@ import PlanDialog from '@src/plans/components/plan-dialog/plan-dialog';
 import RetirementPlanList from '@src/plans/components/retirement-plan-list/retirement-plan-list';
 import translations from './plan-details-view.t';
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements, complexity
 const PlanDetailsView = () => {
   const { planId } = useParams();
   const { t } = useTranslation(translations);
   const { formatCurrency, formatMonthYear } = useFormatter();
-  const [planDialogProps, setPlanDialogProps] = useState<{
-    open?: boolean
-    formData?: RetirementPlanFormData
-  }>({});
-  const formData = plansResource.find(planId);
-  const plan = buildPlan(formData);
-  const openPlanDialog = () => setPlanDialogProps({ open: true, formData });
-  const closePlanDialog = () => setPlanDialogProps(prevState => ({ ...prevState, open: false }));
+  const [planDialogOpen, setPlanDialogOpen] = useState(false);
+  const retirementParams = buildRetirementPlanParams(planId);
+  const plan = retirementParams ? retirementService.buildPlan(retirementParams) : null;
+  const openPlanDialog = () => setPlanDialogOpen(true);
+  const closePlanDialog = () => setPlanDialogOpen(false);
 
   return (
     <div className='wt-plan-details-view'>
@@ -42,21 +39,26 @@ const PlanDetailsView = () => {
               })}
             </p>
             <RetirementPlanList months={plan.months} />
-            <footer className='wt-plan-details-view-footer'>
-              <Button theme='primary' onClick={openPlanDialog}>
-                {t('save')}
-              </Button>
-            </footer>
+            {!planId && (
+              <footer className='wt-plan-details-view-footer'>
+                <Button theme='primary' onClick={openPlanDialog}>
+                  {t('save')}
+                </Button>
+              </footer>
+            )}
           </>
         )}
       </ViewContainer>
-      <PlanDialog {...planDialogProps} onClose={closePlanDialog} />
+      {!planId && <PlanDialog open={planDialogOpen} onClose={closePlanDialog} />}
     </div>
   );
 };
 
-function buildPlan(formData?: RetirementPlanFormData) {
-  return formData ? retirementService.buildPlan(formData) : null;
+function buildRetirementPlanParams(planId?: string): RetirementPlanParams | undefined {
+  const data = planId
+    ? plansResource.find(planId)
+    : plansResource.getTemporaryParams();
+  return data ? retirementService.convertToRetirementPlanParams(data) : undefined;
 }
 
 function formatRetirementDate(date: string, formatMonthYear: ReturnType<typeof useFormatter>['formatMonthYear']) {

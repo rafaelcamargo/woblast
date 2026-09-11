@@ -1,5 +1,4 @@
 import { customRender, fireEvent, screen, TestingRouter } from '@src/base/services/testing';
-import idService from '@src/base/services/id';
 import NewPlanView from './new-plan-view';
 
 describe('New Plan View', () => {
@@ -13,11 +12,6 @@ describe('New Plan View', () => {
 
   beforeEach(() => {
     window.localStorage.clear();
-    idService.generateId = jest.fn(() => 'a1B2c3');
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   it('should contain a wizard to plan retirement', async () => {
@@ -51,9 +45,8 @@ describe('New Plan View', () => {
     await user.type(screen.getByRole('textbox', { name: 'Valor da renda mensal desejada' }), '500000');
     const doneButton = screen.getByRole('link', { name: 'Concluir' });
     expect(doneButton).toHaveAttribute('aria-disabled', 'false');
-    expect(doneButton).toHaveAttribute('href', '/plans/a1B2c3');
+    expect(doneButton).toHaveAttribute('href', '/plans/preview');
     expect(JSON.parse(window.localStorage.getItem('wt_retirementPlanFormData') as string)).toEqual({
-      id: 'a1B2c3',
       initialBalanceAvailability: 'balance_available',
       initialBalance: 10000,
       monthlyDeposit: 2000,

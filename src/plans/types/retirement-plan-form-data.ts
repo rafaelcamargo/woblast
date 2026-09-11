@@ -1,5 +1,4 @@
 export type RetirementPlanFormData = {
-  id: string;
   initialBalanceAvailability: 'balance_unavailable' | 'balance_available';
   initialBalance: number | undefined;
   monthlyDeposit: number | undefined;

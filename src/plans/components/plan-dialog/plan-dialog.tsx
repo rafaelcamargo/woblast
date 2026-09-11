@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
-import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
-import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
 import useCustomHistoryModule from '@src/base/hooks/use-custom-history';
 import plansResource from '@src/plans/resources/plans';
+import retirementService from '@src/plans/services/retirement';
 import { Button } from '@src/base/components/button/button';
 import { Dialog } from '@src/base/components/dialog/dialog';
 import translations from './plan-dialog.t';
 
 type PlanDialogProps = {
   open?: boolean
-  formData?: RetirementPlanFormData
   onClose: () => void
 }
 
-const PlanDialog = ({ open, formData, onClose }: PlanDialogProps) => {
+const PlanDialog = ({ open, onClose }: PlanDialogProps) => {
   const { t } = useTranslation(translations);
   const customHistory = useCustomHistoryModule.useCustomHistory();
   const [planName, setPlanName] = useState('');
@@ -22,10 +20,13 @@ const PlanDialog = ({ open, formData, onClose }: PlanDialogProps) => {
     setPlanName(target.value);
   };
   const savePlan = () => {
+    const formData = plansResource.getTemporaryParams();
     plansResource.save({
-      ...buildRetirementParams(formData as RetirementPlanFormData),
-      name: planName.trim()
+      name: planName.trim(),
+      type: 'retirement',
+      ...retirementService.convertToRetirementPlanParams(formData!)
     });
+    plansResource.clearTemporaryRetirementPlanParams();
     customHistory.push('/plans');
   };
 
@@ -56,16 +57,5 @@ const PlanDialog = ({ open, formData, onClose }: PlanDialogProps) => {
     </Dialog>
   );
 };
-
-function buildRetirementParams(data: RetirementPlanFormData): RetirementPlanParams {
-  return {
-    initialBalance: data.initialBalance,
-    monthlyDeposit: data.monthlyDeposit,
-    averageAnnualReturn: data.averageAnnualReturn,
-    averageAnnualInflation: data.averageAnnualInflation,
-    averageTaxRate: data.averageTaxRate,
-    desiredMonthlyIncome: data.desiredMonthlyIncome
-  } as RetirementPlanParams;
-}
 
 export default PlanDialog;

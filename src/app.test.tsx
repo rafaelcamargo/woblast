@@ -1,11 +1,26 @@
 import { customRender, mockRoute, screen } from '@src/base/services/testing';
+import dateService from '@src/base/services/date';
 import { App } from './app';
 
 describe('App', () => {
   function buildPlanFormDataMock() {
     return {
-      id: 'a1B2c3',
       initialBalanceAvailability: 'balance_available',
+      initialBalance: 10000,
+      monthlyDeposit: 2000,
+      averageAnnualReturn: 9.5,
+      averageAnnualInflation: 4.5,
+      averageTaxRate: 15,
+      desiredMonthlyIncome: 5000
+    };
+  }
+
+  function buildSavedPlanMock() {
+    return {
+      id: 'a1B2c3',
+      name: 'Saved Plan',
+      type: 'retirement',
+      created_at: new Date(2025, 11, 30).toISOString(),
       initialBalance: 10000,
       monthlyDeposit: 2000,
       averageAnnualReturn: 9.5,
@@ -18,6 +33,11 @@ describe('App', () => {
   beforeEach(() => {
     mockRoute('/');
     window.localStorage.clear();
+    dateService.getNow = jest.fn(() => new Date(2025, 11, 30));
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should contain the homepage title on the document', async () => {
@@ -42,8 +62,15 @@ describe('App', () => {
   });
 
   it('should render plan details view', async () => {
-    window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(buildPlanFormDataMock()));
+    window.localStorage.setItem('wt_plans', JSON.stringify([buildSavedPlanMock()]));
     mockRoute('/plans/a1B2c3');
+    customRender(<App />);
+    expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
+  });
+
+  it('should render plan preview view', async () => {
+    window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(buildPlanFormDataMock()));
+    mockRoute('/plans/preview');
     customRender(<App />);
     expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
   });

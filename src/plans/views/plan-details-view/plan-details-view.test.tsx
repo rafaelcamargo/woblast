@@ -1,30 +1,31 @@
 import { customRender, screen, TestingRouter, within } from '@src/base/services/testing';
 import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
+import type { PlanParams } from '@src/plans/types/plan-params';
 import useCustomHistoryMock from '@src/base/mocks/useCustomHistory';
 import dateService from '@src/base/services/date';
-import retirementService from '@src/plans/services/retirement';
+import idService from '@src/base/services/id';
 import PlanDetailsView from './plan-details-view';
 
 type MountProps = {
+  routePath: string
   currentRoute: string
 };
 
 describe('Plan Details View', () => {
-  function mount({ currentRoute }: MountProps) {
+  function mount({ routePath, currentRoute }: MountProps) {
     return customRender(
-      <TestingRouter routePath="/plans/:planId" currentRoute={currentRoute}>
+      <TestingRouter routePath={routePath} currentRoute={currentRoute}>
         <PlanDetailsView />
       </TestingRouter>
     );
   }
 
-  function mockPlanFormData(data: RetirementPlanFormData){
+  function mockPlanFormData(data: RetirementPlanFormData) {
     window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(data));
   }
 
   function buildPlanFormData(): RetirementPlanFormData {
     return {
-      id: 'a1B2c3',
       initialBalanceAvailability: 'balance_available',
       initialBalance: 80000,
       monthlyDeposit: 2000,
@@ -35,9 +36,26 @@ describe('Plan Details View', () => {
     };
   }
 
+  function buildSavedPlan(overrides: Partial<PlanParams> = {}): PlanParams {
+    return {
+      id: 'a1B2c3',
+      name: 'Saved Plan',
+      type: 'retirement',
+      created_at: new Date(2025, 11, 30).toISOString(),
+      initialBalance: 80000,
+      monthlyDeposit: 2000,
+      averageAnnualReturn: 9.5,
+      averageAnnualInflation: 4.5,
+      averageTaxRate: 15,
+      desiredMonthlyIncome: 800,
+      ...overrides
+    };
+  }
+
   beforeEach(() => {
     window.localStorage.clear();
     dateService.getNow = jest.fn(() => new Date(2025, 11, 30));
+    idService.generateId = jest.fn(() => 'a1B2c3');
   });
 
   afterEach(() => {
@@ -47,23 +65,20 @@ describe('Plan Details View', () => {
 
   it('should show the retirement result calculated from the temporary plan stored in local storage', () => {
     mockPlanFormData(buildPlanFormData());
-    mount({ currentRoute: '/plans/a1B2c3' });
+    mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
     expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
     expect(document.getElementById('retirementResultDescription')?.textContent).toEqual('Você poderá se aposentar em junho de 2027 quando o montante alcançar R$\u00a0128.948,74 e estiver rendendo R$\u00a0847,95 ao mês, já descontados os impostos.');
   });
 
-  it('should not calculate a retirement result when the plan id is not temporary', () => {
-    jest.spyOn(retirementService, 'buildPlan');
-    mockPlanFormData(buildPlanFormData());
-    mount({ currentRoute: '/plans/abc' });
-    expect(retirementService.buildPlan).not.toHaveBeenCalled();
+  it('should not calculate a retirement result when temporary plan data is not available', () => {
+    mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
     expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
     expect(document.getElementById('retirementResultDescription')).not.toBeInTheDocument();
   });
 
   it('should show simulation months grouped by year', async () => {
     mockPlanFormData(buildPlanFormData());
-    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    const { user } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
     expect(screen.getByText('2026')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Ano Anterior' })).toBeDisabled();
     expect(screen.getByRole('columnheader', { name: 'Mês' })).toBeInTheDocument();
@@ -92,7 +107,7 @@ describe('Plan Details View', () => {
 
   it('should close plan dialog when close button is clicked', async () => {
     mockPlanFormData(buildPlanFormData());
-    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    const { user } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Fechar' }));
@@ -102,7 +117,7 @@ describe('Plan Details View', () => {
   it('should be able to save plan params into plans collection', async () => {
     useCustomHistoryMock.activate();
     mockPlanFormData(buildPlanFormData());
-    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    const { user } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
     const dialog = screen.getByRole('dialog');
     expect(within(dialog).getByRole('heading', { name: 'Salvar plano' })).toBeInTheDocument();
@@ -117,21 +132,27 @@ describe('Plan Details View', () => {
     expect(saveButton).toBeEnabled();
     await user.click(saveButton);
     expect(JSON.parse(window.localStorage.getItem('wt_plans') as string)).toEqual([{
+      id: 'a1B2c3',
+      name: 'Plan 1',
+      type: 'retirement',
       initialBalance: 80000,
       monthlyDeposit: 2000,
       averageAnnualReturn: 9.5,
       averageAnnualInflation: 4.5,
       averageTaxRate: 15,
       desiredMonthlyIncome: 800,
-      name: 'Plan 1',
       created_at: new Date(2025, 11, 30).toISOString()
     }]);
+    expect(window.localStorage.getItem('wt_retirementPlanFormData')).toBeNull();
     expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
   });
 
   it('should add aditional plan params into plans collection', async () => {
     useCustomHistoryMock.activate();
     window.localStorage.setItem('wt_plans', JSON.stringify([{
+      id: 'existing1',
+      name: 'Existing Plan',
+      type: 'retirement',
       initialBalance: 10000,
       monthlyDeposit: 500,
       averageAnnualReturn: 8,
@@ -141,7 +162,7 @@ describe('Plan Details View', () => {
       created_at: '2024-01-15T00:00:00.000Z'
     }]));
     mockPlanFormData(buildPlanFormData());
-    const { user } = mount({ currentRoute: '/plans/a1B2c3' });
+    const { user } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
     await user.click(screen.getByRole('button', { name: 'Salvar' }));
     const dialog = screen.getByRole('dialog');
     expect(within(dialog).getByRole('heading', { name: 'Salvar plano' })).toBeInTheDocument();
@@ -155,6 +176,9 @@ describe('Plan Details View', () => {
     await user.click(saveButton);
     expect(JSON.parse(window.localStorage.getItem('wt_plans') as string)).toEqual([
       {
+        id: 'existing1',
+        name: 'Existing Plan',
+        type: 'retirement',
         initialBalance: 10000,
         monthlyDeposit: 500,
         averageAnnualReturn: 8,
@@ -164,16 +188,32 @@ describe('Plan Details View', () => {
         created_at: '2024-01-15T00:00:00.000Z'
       },
       {
+        id: 'a1B2c3',
+        name: 'Plan 1',
+        type: 'retirement',
         initialBalance: 80000,
         monthlyDeposit: 2000,
         averageAnnualReturn: 9.5,
         averageAnnualInflation: 4.5,
         averageTaxRate: 15,
         desiredMonthlyIncome: 800,
-        name: 'Plan 1',
         created_at: new Date(2025, 11, 30).toISOString()
       }
     ]);
+    expect(window.localStorage.getItem('wt_retirementPlanFormData')).toBeNull();
     expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
+  });
+
+  it('should show retirement result from saved plan and hide save button', () => {
+    window.localStorage.setItem('wt_plans', JSON.stringify([buildSavedPlan()]));
+    mount({ routePath: '/plans/:planId', currentRoute: '/plans/a1B2c3' });
+    expect(document.getElementById('retirementResultDescription')?.textContent).toEqual('Você poderá se aposentar em junho de 2027 quando o montante alcançar R$\u00a0128.948,74 e estiver rendendo R$\u00a0847,95 ao mês, já descontados os impostos.');
+    expect(screen.queryByRole('button', { name: 'Salvar' })).not.toBeInTheDocument();
+  });
+
+  it('should not show retirement result when saved plan id does not exist', () => {
+    mount({ routePath: '/plans/:planId', currentRoute: '/plans/abc' });
+    expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
+    expect(document.getElementById('retirementResultDescription')).not.toBeInTheDocument();
   });
 });
