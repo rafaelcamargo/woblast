@@ -1,4 +1,4 @@
-import { Icon } from '@src/base/icon/icon';
+import { Icon } from '@src/base/components/icon/icon';
 
 type CloseIconProps = Omit<React.ComponentProps<typeof Icon>, 'name' | 'children'>
 
