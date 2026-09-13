@@ -59,7 +59,7 @@ describe('Plans View', () => {
   it('should display a view link for a plan that navigates to the plan details page', () => {
     window.localStorage.setItem('wt_plans', JSON.stringify([buildPlan({ id: '123abc' })]));
     mount();
-    expect(screen.getByRole('link', { name: 'Visualizar' })).toHaveAttribute('href', '/plans/123abc');
+    expect(screen.getByRole('link', { name: 'Visualizar Plan 1' })).toHaveAttribute('href', '/plans/123abc');
   });
 
   it('should delete a plan', async () => {

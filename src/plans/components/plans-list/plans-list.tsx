@@ -56,7 +56,7 @@ export const PlansList = () => {
                     size='sm'
                     element={Link}
                     to={`/plans/${plan.id}`}
-                    aria-label={t('view') as string}
+                    aria-label={t('view', { planName: plan.name }) as string}
                   >
                     <ArrowIcon />
                   </IconButton>
