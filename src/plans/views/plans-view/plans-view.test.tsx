@@ -1,4 +1,4 @@
-import { customRender, screen, TestingRouter } from '@src/base/services/testing';
+import { customRender, screen, TestingRouter, within } from '@src/base/services/testing';
 import type { PlanParams } from '@src/plans/types/plan-params';
 import PlansView from './plans-view';
 
@@ -38,6 +38,10 @@ describe('Plans View', () => {
     ]));
   }
 
+  function mockSinglePlan() {
+    window.localStorage.setItem('wt_plans', JSON.stringify([buildPlan()]));
+  }
+
   beforeEach(() => {
     window.localStorage.clear();
   });
@@ -56,5 +60,25 @@ describe('Plans View', () => {
     window.localStorage.setItem('wt_plans', JSON.stringify([buildPlan({ id: '123abc' })]));
     mount();
     expect(screen.getByRole('link', { name: 'Visualizar' })).toHaveAttribute('href', '/plans/123abc');
+  });
+
+  it('should delete a plan', async () => {
+    mockSinglePlan();
+    const { user } = mount();
+    await user.click(screen.getByRole('button', { name: 'Excluir Plan 1' }));
+    expect(screen.getByText('Deseja realmente excluir Plan 1?')).toBeInTheDocument();
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Excluir' }));
+    expect(screen.queryByText('Deseja realmente excluir Plan 1?')).not.toBeInTheDocument();
+    expect(screen.queryByText('Plan 1')).not.toBeInTheDocument();
+  });
+
+  it('should cancel plan deletion', async () => {
+    mockSinglePlan();
+    const { user } = mount();
+    await user.click(screen.getByRole('button', { name: 'Excluir Plan 1' }));
+    expect(screen.getByText('Deseja realmente excluir Plan 1?')).toBeInTheDocument();
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Fechar' }));
+    expect(screen.queryByText('Deseja realmente excluir Plan 1?')).not.toBeInTheDocument();
+    expect(screen.getByText('Plan 1')).toBeInTheDocument();
   });
 });

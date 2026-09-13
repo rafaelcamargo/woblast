@@ -10,6 +10,7 @@ type UsePlans = {
   find: (id: string) => PlanParams | undefined
   get: () => PlanParams[]
   getRetirementPlanDraft: () => RetirementPlanDraft | null
+  remove: (id: string) => void
   save: (plan: PlanParamsPayload) => void
 };
 
@@ -32,6 +33,9 @@ export function usePlans(): UsePlans {
     },
     deleteRetirementPlanDraft: () => {
       setRetirementPlanDraft(null);
+    },
+    remove: id => {
+      setPlans(plans.filter(plan => plan.id !== id));
     }
   };
 }
