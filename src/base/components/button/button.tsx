@@ -2,6 +2,7 @@ type ButtonProps = {
   children: React.ReactNode
   type?: 'button' | 'submit'
   theme?: 'primary' | 'secondary'
+  size?: 'sm'
   className?: string
   disabled?: boolean
   element?: React.ElementType
@@ -13,6 +14,7 @@ type ButtonProps = {
 export const Button = ({
   children,
   theme,
+  size,
   className,
   disabled,
   onClick,
@@ -27,7 +29,7 @@ export const Button = ({
     <Element
       type={buildNativeType(Element, type)}
       to={to}
-      className={buildClassName(theme, className)}
+      className={buildClassName(theme, size, className)}
       onClick={buildClickHandler(disabled, onClick)}
       disabled={buildNativeDisabled(Element, disabled)}
       aria-disabled={buildAriaDisabled(Element, disabled)}
@@ -38,10 +40,11 @@ export const Button = ({
   );
 };
 
-function buildClassName(theme?: ButtonProps['theme'], className?: string) {
+function buildClassName(theme?: ButtonProps['theme'], size?: ButtonProps['size'], className?: string) {
   return [
     'wt-button',
     getThemeClassName(theme),
+    getSizeClassName(size),
     className
   ].join(' ').replace(/\s+/g, ' ').trim();
 }
@@ -51,6 +54,12 @@ function getThemeClassName(theme?: ButtonProps['theme']) {
     primary: 'is-primary',
     secondary: 'is-secondary'
   }[theme as string];
+}
+
+function getSizeClassName(size?: ButtonProps['size']) {
+  return {
+    sm: 'is-small'
+  }[size as string];
 }
 
 function buildClickHandler(disabled?: boolean, onClick?: () => void) {

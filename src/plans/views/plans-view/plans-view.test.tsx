@@ -51,4 +51,10 @@ describe('Plans View', () => {
     expect(screen.getByText('10 MAR 2026')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Criar Plano' })).toHaveAttribute('href', '/plans/new');
   });
+
+  it('should display a view link for a plan that navigates to the plan details page', () => {
+    window.localStorage.setItem('wt_plans', JSON.stringify([buildPlan({ id: '123abc' })]));
+    mount();
+    expect(screen.getByRole('link', { name: 'Visualizar' })).toHaveAttribute('href', '/plans/123abc');
+  });
 });
