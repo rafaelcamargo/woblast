@@ -1,11 +1,11 @@
 import { useTranslation } from '@compilorama/polang';
 import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
-import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
+import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import translations from './plan-retirement-wizard-step-4.t';
 
 type PlanRetirementWizardStep4Props = {
-  formData: RetirementPlanFormData;
+  formData: RetirementPlanDraft;
   onValueChange: (nextValue: NumberInputChangeValue) => void;
   onPreviousButtonClick: () => void;
   onNextButtonClick: () => void;

@@ -1,4 +1,4 @@
-export type RetirementPlanFormData = {
+export type RetirementPlanDraft = {
   initialBalanceAvailability: 'balance_unavailable' | 'balance_available';
   initialBalance: number | undefined;
   monthlyDeposit: number | undefined;

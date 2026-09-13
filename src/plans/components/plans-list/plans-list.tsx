@@ -6,13 +6,14 @@ import { IconButton } from '@src/base/components/icon-button/icon-button';
 import { ArrowIcon } from '@src/base/icons/arrow';
 import { PlanIcon } from '@src/base/icons/plan';
 import { PlansBlankslate } from '@src/plans/components/plans-blankslate/plans-blankslate';
-import plansResource from '@src/plans/resources/plans';
+import { usePlans } from '@src/plans/hooks/use-plans';
 import translations from './plans-list.t';
 
 export const PlansList = () => {
   const { t } = useTranslation(translations);
   const { formatDate } = useFormatter();
-  const plans = plansResource.get();
+  const { get } = usePlans();
+  const plans = get();
 
   if (!plans.length) {
     return <PlansBlankslate />;

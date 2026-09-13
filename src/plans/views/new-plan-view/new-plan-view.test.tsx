@@ -46,7 +46,7 @@ describe('New Plan View', () => {
     const doneButton = screen.getByRole('link', { name: 'Concluir' });
     expect(doneButton).toHaveAttribute('aria-disabled', 'false');
     expect(doneButton).toHaveAttribute('href', '/plans/preview');
-    expect(JSON.parse(window.localStorage.getItem('wt_retirementPlanFormData') as string)).toEqual({
+    expect(JSON.parse(window.localStorage.getItem('wt_retirementPlanDraft') as string)).toEqual({
       initialBalanceAvailability: 'balance_available',
       initialBalance: 10000,
       monthlyDeposit: 2000,

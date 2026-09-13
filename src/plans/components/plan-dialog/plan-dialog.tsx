@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
 import useCustomHistoryModule from '@src/base/hooks/use-custom-history';
-import plansResource from '@src/plans/resources/plans';
+import { usePlans } from '@src/plans/hooks/use-plans';
 import retirementService from '@src/plans/services/retirement';
 import { Button } from '@src/base/components/button/button';
 import { Dialog } from '@src/base/components/dialog/dialog';
@@ -15,18 +15,19 @@ type PlanDialogProps = {
 const PlanDialog = ({ open, onClose }: PlanDialogProps) => {
   const { t } = useTranslation(translations);
   const customHistory = useCustomHistoryModule.useCustomHistory();
+  const { deleteRetirementPlanDraft, getRetirementPlanDraft, save } = usePlans();
   const [planName, setPlanName] = useState('');
   const handleNameChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setPlanName(target.value);
   };
   const savePlan = () => {
-    const formData = plansResource.getTemporaryParams();
-    plansResource.save({
+    const formData = getRetirementPlanDraft();
+    save({
       name: planName.trim(),
       type: 'retirement',
       ...retirementService.convertToRetirementPlanParams(formData!)
     });
-    plansResource.clearTemporaryRetirementPlanParams();
+    deleteRetirementPlanDraft();
     customHistory.push('/plans');
   };
 

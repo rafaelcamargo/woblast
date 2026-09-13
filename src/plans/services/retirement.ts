@@ -1,11 +1,11 @@
 import type { PlanParams } from '@src/plans/types/plan-params';
-import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
+import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
 import dateService from '@src/base/services/date';
 
 type RetirementService = {
   buildPlan: (params: RetirementPlanParams) => RetirementPlan
-  convertToRetirementPlanParams: (data: RetirementPlanFormData | PlanParams) => RetirementPlanParams
+  convertToRetirementPlanParams: (data: RetirementPlanDraft | PlanParams) => RetirementPlanParams
 }
 
 export type RetirementPlan = {

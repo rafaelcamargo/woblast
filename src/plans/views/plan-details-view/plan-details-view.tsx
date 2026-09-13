@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
 import { useParams } from 'react-router-dom';
 import { useFormatter } from '@src/base/hooks/use-formatter';
-import plansResource from '@src/plans/resources/plans';
+import { usePlans } from '@src/plans/hooks/use-plans';
 import retirementService from '@src/plans/services/retirement';
 import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
 import { Button } from '@src/base/components/button/button';
@@ -18,8 +18,9 @@ const PlanDetailsView = () => {
   const { planId } = useParams();
   const { t } = useTranslation(translations);
   const { formatCurrency, formatMonthYear } = useFormatter();
+  const { find, getRetirementPlanDraft } = usePlans();
   const [planDialogOpen, setPlanDialogOpen] = useState(false);
-  const retirementParams = buildRetirementPlanParams(planId);
+  const retirementParams = buildRetirementPlanParams(planId, find, getRetirementPlanDraft);
   const plan = retirementParams ? retirementService.buildPlan(retirementParams) : null;
   const openPlanDialog = () => setPlanDialogOpen(true);
   const closePlanDialog = () => setPlanDialogOpen(false);
@@ -54,10 +55,12 @@ const PlanDetailsView = () => {
   );
 };
 
-function buildRetirementPlanParams(planId?: string): RetirementPlanParams | undefined {
-  const data = planId
-    ? plansResource.find(planId)
-    : plansResource.getTemporaryParams();
+function buildRetirementPlanParams(
+  planId: string | undefined,
+  find: ReturnType<typeof usePlans>['find'],
+  getRetirementPlanDraft: ReturnType<typeof usePlans>['getRetirementPlanDraft']
+): RetirementPlanParams | undefined {
+  const data = planId ? find(planId) : getRetirementPlanDraft();
   return data ? retirementService.convertToRetirementPlanParams(data) : undefined;
 }
 

@@ -1,5 +1,5 @@
 import { customRender, screen, TestingRouter, within } from '@src/base/services/testing';
-import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
+import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import type { PlanParams } from '@src/plans/types/plan-params';
 import useCustomHistoryMock from '@src/base/mocks/useCustomHistory';
 import dateService from '@src/base/services/date';
@@ -20,11 +20,11 @@ describe('Plan Details View', () => {
     );
   }
 
-  function mockPlanFormData(data: RetirementPlanFormData) {
-    window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(data));
+  function mockPlanFormData(data: RetirementPlanDraft) {
+    window.localStorage.setItem('wt_retirementPlanDraft', JSON.stringify(data));
   }
 
-  function buildPlanFormData(): RetirementPlanFormData {
+  function buildPlanFormData(): RetirementPlanDraft {
     return {
       initialBalanceAvailability: 'balance_available',
       initialBalance: 80000,
@@ -143,7 +143,7 @@ describe('Plan Details View', () => {
       desiredMonthlyIncome: 800,
       created_at: new Date(2025, 11, 30).toISOString()
     }]);
-    expect(window.localStorage.getItem('wt_retirementPlanFormData')).toBeNull();
+    expect(window.localStorage.getItem('wt_retirementPlanDraft')).toBeNull();
     expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
   });
 
@@ -200,7 +200,7 @@ describe('Plan Details View', () => {
         created_at: new Date(2025, 11, 30).toISOString()
       }
     ]);
-    expect(window.localStorage.getItem('wt_retirementPlanFormData')).toBeNull();
+    expect(window.localStorage.getItem('wt_retirementPlanDraft')).toBeNull();
     expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
   });
 

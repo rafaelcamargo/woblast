@@ -2,11 +2,11 @@ import { useTranslation } from '@compilorama/polang';
 import { Link } from 'react-router-dom';
 import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
-import type { RetirementPlanFormData } from '@src/plans/types/retirement-plan-form-data';
+import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import translations from './plan-retirement-wizard-step-6.t';
 
 type PlanRetirementWizardStep6Props = {
-  formData: RetirementPlanFormData;
+  formData: RetirementPlanDraft;
   onValueChange: (nextValue: NumberInputChangeValue) => void;
   onPreviousButtonClick: () => void;
   hasPreviousStep?: boolean;

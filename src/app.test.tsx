@@ -69,7 +69,7 @@ describe('App', () => {
   });
 
   it('should render plan preview view', async () => {
-    window.localStorage.setItem('wt_retirementPlanFormData', JSON.stringify(buildPlanFormDataMock()));
+    window.localStorage.setItem('wt_retirementPlanDraft', JSON.stringify(buildPlanFormDataMock()));
     mockRoute('/plans/preview');
     customRender(<App />);
     expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
