@@ -6,10 +6,8 @@ export type WizardStepProps = {
   stepName: React.ReactNode
   nextButtonLabel?: React.ReactNode
   nextButtonDisabled?: boolean
-  nextButtonElement?: React.ElementType
-  nextButtonTo?: string
+  nextButtonFormId?: string
   onPreviousButtonClick?: () => void
-  onNextButtonClick?: () => void
   hasPreviousStep?: boolean
   children: React.ReactNode
 }
@@ -18,10 +16,8 @@ export const WizardStep = ({
   stepName,
   nextButtonLabel,
   nextButtonDisabled,
-  nextButtonElement,
-  nextButtonTo,
+  nextButtonFormId,
   onPreviousButtonClick,
-  onNextButtonClick,
   hasPreviousStep,
   children
 }: WizardStepProps) => {
@@ -32,10 +28,8 @@ export const WizardStep = ({
       <WizardStepFooter
         nextButtonLabel={nextButtonLabel}
         nextButtonDisabled={nextButtonDisabled}
-        nextButtonElement={nextButtonElement}
-        nextButtonTo={nextButtonTo}
+        nextButtonFormId={nextButtonFormId}
         onPreviousButtonClick={onPreviousButtonClick}
-        onNextButtonClick={onNextButtonClick}
         hasPreviousStep={hasPreviousStep}
       />
     </div>
@@ -45,20 +39,16 @@ export const WizardStep = ({
 type WizardStepFooterProps = {
   nextButtonLabel?: React.ReactNode
   nextButtonDisabled?: boolean
-  nextButtonElement?: React.ElementType
-  nextButtonTo?: string
+  nextButtonFormId?: string
   onPreviousButtonClick?: () => void
-  onNextButtonClick?: () => void
   hasPreviousStep?: boolean
 }
 
 const WizardStepFooter = ({
   nextButtonLabel,
   nextButtonDisabled,
-  nextButtonElement,
-  nextButtonTo,
+  nextButtonFormId,
   onPreviousButtonClick,
-  onNextButtonClick,
   hasPreviousStep
 }: WizardStepFooterProps) => {
   const { t } = useTranslation(translations);
@@ -74,10 +64,9 @@ const WizardStepFooter = ({
         </Button>
       )}
       <Button
+        type='submit'
         theme='primary'
-        element={nextButtonElement}
-        to={nextButtonTo}
-        onClick={onNextButtonClick}
+        form={nextButtonFormId}
         disabled={nextButtonDisabled}
       >
         {nextButtonLabel || t('next')}

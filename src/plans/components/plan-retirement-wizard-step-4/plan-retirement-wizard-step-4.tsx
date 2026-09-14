@@ -4,11 +4,13 @@ import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import translations from './plan-retirement-wizard-step-4.t';
 
+const FORM_ID = 'planRetirementWizardStep4Form';
+
 type PlanRetirementWizardStep4Props = {
   formData: RetirementPlanDraft;
   onValueChange: (nextValue: NumberInputChangeValue) => void;
   onPreviousButtonClick: () => void;
-  onNextButtonClick: () => void;
+  onSubmit: () => void;
   hasPreviousStep?: boolean;
 }
 
@@ -16,29 +18,37 @@ export const PlanRetirementWizardStep4 = ({
   formData,
   onValueChange,
   onPreviousButtonClick,
-  onNextButtonClick,
+  onSubmit,
   hasPreviousStep
 }: PlanRetirementWizardStep4Props) => {
   const { t } = useTranslation(translations);
+  const isFormInvalid = !(Number(formData.averageAnnualInflation) > 0);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    !isFormInvalid && onSubmit();
+  };
 
   return (
     <WizardStep
       stepName={t('expected_inflation')}
       hasPreviousStep={hasPreviousStep}
-      nextButtonDisabled={!(Number(formData.averageAnnualInflation) > 0)}
+      nextButtonDisabled={isFormInvalid}
+      nextButtonFormId={FORM_ID}
       onPreviousButtonClick={onPreviousButtonClick}
-      onNextButtonClick={onNextButtonClick}
     >
-      <div className='wt-plan-retirement-wizard-step-4'>
-        <p>{t('expected_inflation_description')}</p>
-        <NumberInput
-          name='averageAnnualInflation'
-          value={formData.averageAnnualInflation}
-          type='percent'
-          aria-label={t('average_annual_inflation') as string}
-          onValueChange={onValueChange}
-        />
-      </div>
+      <form id={FORM_ID} onSubmit={handleSubmit}>
+        <div className='wt-plan-retirement-wizard-step-4'>
+          <p>{t('expected_inflation_description')}</p>
+          <NumberInput
+            name='averageAnnualInflation'
+            value={formData.averageAnnualInflation}
+            type='percent'
+            autoFocus
+            aria-label={t('average_annual_inflation') as string}
+            onValueChange={onValueChange}
+          />
+        </div>
+      </form>
     </WizardStep>
   );
 };

@@ -1,4 +1,5 @@
-import { customRender, fireEvent, screen, TestingRouter } from '@src/base/services/testing';
+import { customRender, screen, TestingRouter } from '@src/base/services/testing';
+import useCustomHistoryMock from '@src/base/mocks/useCustomHistory';
 import NewPlanView from './new-plan-view';
 
 describe('New Plan View', () => {
@@ -14,7 +15,12 @@ describe('New Plan View', () => {
     window.localStorage.clear();
   });
 
+  afterEach(() => {
+    useCustomHistoryMock.deactivate();
+  });
+
   it('should contain a wizard to plan retirement', async () => {
+    useCustomHistoryMock.activate();
     const { user } = mount();
     expect(screen.getByRole('heading', { level: 2, name: 'Saldo inicial' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Próxima' })).toBeEnabled();
@@ -40,12 +46,13 @@ describe('New Plan View', () => {
     await user.type(screen.getByRole('textbox', { name: 'Alíquota média de impostos' }), '1500');
     await user.click(screen.getByRole('button', { name: 'Próxima' }));
     expect(screen.getByRole('heading', { level: 2, name: 'Renda mensal desejada' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Concluir' })).toHaveAttribute('aria-disabled', 'true');
-    fireEvent.click(screen.getByRole('link', { name: 'Concluir' }));
+    expect(screen.getByRole('button', { name: 'Concluir' })).toBeDisabled();
     await user.type(screen.getByRole('textbox', { name: 'Valor da renda mensal desejada' }), '500000');
-    const doneButton = screen.getByRole('link', { name: 'Concluir' });
-    expect(doneButton).toHaveAttribute('aria-disabled', 'false');
-    expect(doneButton).toHaveAttribute('href', '/plans/preview');
+    const doneButton = screen.getByRole('button', { name: 'Concluir' });
+    expect(doneButton).toBeEnabled();
+    expect(doneButton).toHaveAttribute('form', 'planRetirementWizardStep6Form');
+    await user.click(doneButton);
+    expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans/preview');
     expect(JSON.parse(window.localStorage.getItem('wt_retirementPlanDraft') as string)).toEqual({
       initialBalanceAvailability: 'balance_available',
       initialBalance: 10000,

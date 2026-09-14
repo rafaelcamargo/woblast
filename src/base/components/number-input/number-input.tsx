@@ -13,6 +13,7 @@ type NumberInputProps = Omit<
   name: string
   value?: number
   type?: 'currency' | 'percent'
+  autoFocus?: boolean
   onValueChange?: (
     nextValue: NumberInputChangeValue,
     event: React.ChangeEvent<HTMLInputElement>
@@ -24,6 +25,7 @@ export const NumberInput = ({
   value,
   type,
   className,
+  autoFocus,
   onChange,
   onValueChange,
   onKeyDown,
@@ -59,6 +61,7 @@ export const NumberInput = ({
         name={name}
         value={displayValue}
         {...inputProps}
+        autoFocus={autoFocus}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         type='text'
@@ -105,7 +108,7 @@ function isAllowedKey(event: React.KeyboardEvent<HTMLInputElement>) {
 
 function isValidKey(key: string){
   const isDigitKey = /^\d$/.test(key);
-  const isEditKey = ['Backspace', 'Delete', 'Tab', 'Escape'].includes(key);
+  const isEditKey = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'].includes(key);
   return isDigitKey || isEditKey;
 }
 

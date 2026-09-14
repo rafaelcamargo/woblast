@@ -7,6 +7,7 @@ type ButtonProps = {
   disabled?: boolean
   element?: React.ElementType
   to?: string
+  form?: string
   onClick?: () => void
   'aria-label'?: string
 }
@@ -21,6 +22,7 @@ export const Button = ({
   type,
   element,
   to,
+  form,
   'aria-label': ariaLabel
 }: ButtonProps) => {
   const Element = element || 'button';
@@ -29,6 +31,7 @@ export const Button = ({
     <Element
       type={buildNativeType(Element, type)}
       to={to}
+      form={form}
       className={buildClassName(theme, size, className)}
       onClick={buildClickHandler(disabled, onClick)}
       disabled={buildNativeDisabled(Element, disabled)}

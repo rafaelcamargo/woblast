@@ -7,43 +7,50 @@ import translations from './plan-retirement-wizard-step-1.t';
 
 const BALANCE_UNAVAILABLE = 'balance_unavailable';
 const BALANCE_AVAILABLE = 'balance_available';
+const FORM_ID = 'planRetirementWizardStep1Form';
 
 type PlanRetirementWizardStep1Props = {
   formData: RetirementPlanDraft;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onValueChange: (nextValue: NumberInputChangeValue) => void;
-  onNextButtonClick: () => void;
+  onSubmit: () => void;
 }
 
 export const PlanRetirementWizardStep1 = ({
   formData,
   onChange,
   onValueChange,
-  onNextButtonClick
+  onSubmit
 }: PlanRetirementWizardStep1Props) => {
   const { t } = useTranslation(translations);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    !isNextButtonDisabled(formData) && onSubmit();
+  };
 
   return (
     <WizardStep
       stepName={t('step_name')}
       nextButtonDisabled={isNextButtonDisabled(formData)}
-      onNextButtonClick={onNextButtonClick}
+      nextButtonFormId={FORM_ID}
     >
-      <div className='wt-plan-retirement-wizard-step-1'>
-        {buildBalanceOptions(t).map(option => (
-          <Radio
-            key={option.value}
-            name='initialBalanceAvailability'
-            value={option.value}
-            checked={formData.initialBalanceAvailability === option.value}
-            label={option.title}
-            description={option.description}
-            onChange={onChange}
-          >
-            {buildBalanceInput(option.value, formData, onValueChange, t)}
-          </Radio>
-        ))}
-      </div>
+      <form id={FORM_ID} onSubmit={handleSubmit}>
+        <div className='wt-plan-retirement-wizard-step-1'>
+          {buildBalanceOptions(t).map(option => (
+            <Radio
+              key={option.value}
+              name='initialBalanceAvailability'
+              value={option.value}
+              checked={formData.initialBalanceAvailability === option.value}
+              label={option.title}
+              description={option.description}
+              onChange={onChange}
+            >
+              {buildBalanceInput(option.value, formData, onValueChange, t)}
+            </Radio>
+          ))}
+        </div>
+      </form>
     </WizardStep>
   );
 };
@@ -64,6 +71,7 @@ function buildBalanceInput(
       name='initialBalance'
       value={formData.initialBalance}
       type='currency'
+      autoFocus
       aria-label={t('initial_balance') as string}
       onValueChange={onValueChange}
     />

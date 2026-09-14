@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useCustomHistoryModule from '@src/base/hooks/use-custom-history';
 import { useLocalStorageState } from '@src/base/hooks/use-local-storage-state';
 import type { NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { Wizard } from '@src/base/components/wizard/wizard';
@@ -11,6 +12,7 @@ import { PlanRetirementWizardStep6 } from '@src/plans/components/plan-retirement
 import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 
 export const PlanRetirementWizard = () => {
+  const customHistory = useCustomHistoryModule.useCustomHistory();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useLocalStorageState<RetirementPlanDraft>('wt_retirementPlanDraft', {
     initialBalanceAvailability: 'balance_unavailable',
@@ -29,6 +31,7 @@ export const PlanRetirementWizard = () => {
   };
   const goBack = () => setCurrentStep(currentStep - 1);
   const goForward = () => setCurrentStep(currentStep + 1);
+  const goToPreview = () => customHistory.push('/plans/preview');
 
   return (
     <Wizard currentStep={currentStep}>
@@ -36,36 +39,37 @@ export const PlanRetirementWizard = () => {
         formData={formData}
         onChange={handleFormDataChange}
         onValueChange={handleMoneyFormDataChange}
-        onNextButtonClick={goForward}
+        onSubmit={goForward}
       />
       <PlanRetirementWizardStep2
         formData={formData}
         onValueChange={handleMoneyFormDataChange}
         onPreviousButtonClick={goBack}
-        onNextButtonClick={goForward}
+        onSubmit={goForward}
       />
       <PlanRetirementWizardStep3
         formData={formData}
         onValueChange={handleMoneyFormDataChange}
         onPreviousButtonClick={goBack}
-        onNextButtonClick={goForward}
+        onSubmit={goForward}
       />
       <PlanRetirementWizardStep4
         formData={formData}
         onValueChange={handleMoneyFormDataChange}
         onPreviousButtonClick={goBack}
-        onNextButtonClick={goForward}
+        onSubmit={goForward}
       />
       <PlanRetirementWizardStep5
         formData={formData}
         onValueChange={handleMoneyFormDataChange}
         onPreviousButtonClick={goBack}
-        onNextButtonClick={goForward}
+        onSubmit={goForward}
       />
       <PlanRetirementWizardStep6
         formData={formData}
         onValueChange={handleMoneyFormDataChange}
         onPreviousButtonClick={goBack}
+        onSubmit={goToPreview}
       />
     </Wizard>
   );

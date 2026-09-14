@@ -98,6 +98,23 @@ describe('Number Input', () => {
     );
   });
 
+  it('should allow Enter to submit a wrapping form', async () => {
+    const onSubmit = jest.fn((event: React.FormEvent) => event.preventDefault());
+    const { user } = customRender(
+      <form onSubmit={onSubmit}>
+        <NumberInput name='amount' />
+      </form>
+    );
+    const input = screen.getByRole('textbox');
+    await user.type(input, '100{Enter}');
+    expect(onSubmit).toHaveBeenCalled();
+  });
+
+  it('should focus the input on mount when autoFocus is true', () => {
+    mount({ autoFocus: true });
+    expect(screen.getByRole('textbox')).toHaveFocus();
+  });
+
   it('should allow custom css class', () => {
     mount({ className: 'custom-class' });
     expect(screen.getByRole('textbox').parentElement).toHaveClass('wt-number-input', 'custom-class');
