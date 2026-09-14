@@ -16,20 +16,20 @@ describe('Number Input', () => {
 
   it('should not render number type modifier css class by default', () => {
     mount();
-    const input = screen.getByRole('textbox');
-    expect(input).toHaveClass('wt-number-input');
-    expect(input).not.toHaveClass('is-currency');
-    expect(input).not.toHaveClass('is-percent');
+    const wrapper = screen.getByRole('textbox').parentElement;
+    expect(wrapper).toHaveClass('wt-number-input');
+    expect(wrapper).not.toHaveClass('is-currency');
+    expect(wrapper).not.toHaveClass('is-percent');
   });
 
   it('should add the currency modifier when number type is currency', () => {
     mount({ type: 'currency' });
-    expect(screen.getByRole('textbox')).toHaveClass('wt-number-input', 'is-currency');
+    expect(screen.getByRole('textbox').parentElement).toHaveClass('wt-number-input', 'is-currency');
   });
 
   it('should add the percent modifier when number type is percent', () => {
     mount({ type: 'percent' });
-    expect(screen.getByRole('textbox')).toHaveClass('wt-number-input', 'is-percent');
+    expect(screen.getByRole('textbox').parentElement).toHaveClass('wt-number-input', 'is-percent');
   });
 
   it('should format typed digits as currency without a symbol and notify the float value', async () => {
@@ -100,7 +100,7 @@ describe('Number Input', () => {
 
   it('should allow custom css class', () => {
     mount({ className: 'custom-class' });
-    expect(screen.getByRole('textbox')).toHaveClass('wt-number-input', 'custom-class');
+    expect(screen.getByRole('textbox').parentElement).toHaveClass('wt-number-input', 'custom-class');
   });
 
   it('should emit 0 on chance if input has been cleared', async () => {

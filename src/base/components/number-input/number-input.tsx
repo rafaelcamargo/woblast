@@ -54,16 +54,17 @@ export const NumberInput = ({
   }, [value, locale.code]);
 
   return (
-    <input
-      name={name}
-      value={displayValue}
-      className={buildClassName(type, className)}
-      {...inputProps}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      type='text'
-      inputMode='decimal'
-    />
+    <div className={buildClassName(type, className)}>
+      <input
+        name={name}
+        value={displayValue}
+        {...inputProps}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        type='text'
+        inputMode='decimal'
+      />
+    </div>
   );
 };
 
