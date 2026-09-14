@@ -34,43 +34,45 @@ export const PlanRetirementWizard = () => {
   const goToPreview = () => customHistory.push('/plans/preview');
 
   return (
-    <Wizard currentStep={currentStep}>
-      <PlanRetirementWizardStep1
-        formData={formData}
-        onChange={handleFormDataChange}
-        onValueChange={handleMoneyFormDataChange}
-        onSubmit={goForward}
-      />
-      <PlanRetirementWizardStep2
-        formData={formData}
-        onValueChange={handleMoneyFormDataChange}
-        onPreviousButtonClick={goBack}
-        onSubmit={goForward}
-      />
-      <PlanRetirementWizardStep3
-        formData={formData}
-        onValueChange={handleMoneyFormDataChange}
-        onPreviousButtonClick={goBack}
-        onSubmit={goForward}
-      />
-      <PlanRetirementWizardStep4
-        formData={formData}
-        onValueChange={handleMoneyFormDataChange}
-        onPreviousButtonClick={goBack}
-        onSubmit={goForward}
-      />
-      <PlanRetirementWizardStep5
-        formData={formData}
-        onValueChange={handleMoneyFormDataChange}
-        onPreviousButtonClick={goBack}
-        onSubmit={goForward}
-      />
-      <PlanRetirementWizardStep6
-        formData={formData}
-        onValueChange={handleMoneyFormDataChange}
-        onPreviousButtonClick={goBack}
-        onSubmit={goToPreview}
-      />
-    </Wizard>
+    <div className="wt-plan-retirement-wizard">
+      <Wizard currentStep={currentStep}>
+        <PlanRetirementWizardStep1
+          formData={formData}
+          onChange={handleFormDataChange}
+          onValueChange={handleMoneyFormDataChange}
+          onSubmit={goForward}
+        />
+        <PlanRetirementWizardStep2
+          formData={formData}
+          onValueChange={handleMoneyFormDataChange}
+          onPreviousButtonClick={goBack}
+          onSubmit={goForward}
+        />
+        <PlanRetirementWizardStep3
+          formData={formData}
+          onValueChange={handleMoneyFormDataChange}
+          onPreviousButtonClick={goBack}
+          onSubmit={goForward}
+        />
+        <PlanRetirementWizardStep4
+          formData={formData}
+          onValueChange={handleMoneyFormDataChange}
+          onPreviousButtonClick={goBack}
+          onSubmit={goForward}
+        />
+        <PlanRetirementWizardStep5
+          formData={formData}
+          onValueChange={handleMoneyFormDataChange}
+          onPreviousButtonClick={goBack}
+          onSubmit={goForward}
+        />
+        <PlanRetirementWizardStep6
+          formData={formData}
+          onValueChange={handleMoneyFormDataChange}
+          onPreviousButtonClick={goBack}
+          onSubmit={goToPreview}
+        />
+      </Wizard>
+    </div>
   );
 };

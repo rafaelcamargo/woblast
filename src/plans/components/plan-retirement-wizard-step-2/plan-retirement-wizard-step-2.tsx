@@ -36,8 +36,8 @@ export const PlanRetirementWizardStep2 = ({
       nextButtonFormId={FORM_ID}
       onPreviousButtonClick={onPreviousButtonClick}
     >
-      <form id={FORM_ID} onSubmit={handleSubmit}>
-        <div className='wt-plan-retirement-wizard-step-2'>
+      <div className='wt-plan-retirement-wizard-step-2'>
+        <form id={FORM_ID} onSubmit={handleSubmit}>
           <p>{t('monthly_deposits_description')}</p>
           <NumberInput
             name='monthlyDeposit'
@@ -47,8 +47,8 @@ export const PlanRetirementWizardStep2 = ({
             aria-label={t('monthly_deposit_amount') as string}
             onValueChange={onValueChange}
           />
-        </div>
-      </form>
+        </form>
+      </div>
     </WizardStep>
   );
 };

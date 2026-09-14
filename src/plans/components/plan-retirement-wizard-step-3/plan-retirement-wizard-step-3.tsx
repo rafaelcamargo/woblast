@@ -36,8 +36,8 @@ export const PlanRetirementWizardStep3 = ({
       nextButtonFormId={FORM_ID}
       onPreviousButtonClick={onPreviousButtonClick}
     >
-      <form id={FORM_ID} onSubmit={handleSubmit}>
-        <div className='wt-plan-retirement-wizard-step-3'>
+      <div className='wt-plan-retirement-wizard-step-3'>
+        <form id={FORM_ID} onSubmit={handleSubmit}>
           <p>{t('expected_return_description')}</p>
           <NumberInput
             name='averageAnnualReturn'
@@ -47,8 +47,8 @@ export const PlanRetirementWizardStep3 = ({
             aria-label={t('average_annual_return') as string}
             onValueChange={onValueChange}
           />
-        </div>
-      </form>
+        </form>
+      </div>
     </WizardStep>
   );
 };

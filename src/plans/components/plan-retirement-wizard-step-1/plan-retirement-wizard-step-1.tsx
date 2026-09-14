@@ -34,8 +34,8 @@ export const PlanRetirementWizardStep1 = ({
       nextButtonDisabled={isNextButtonDisabled(formData)}
       nextButtonFormId={FORM_ID}
     >
-      <form id={FORM_ID} onSubmit={handleSubmit}>
-        <div className='wt-plan-retirement-wizard-step-1'>
+      <div className='wt-plan-retirement-wizard-step-1'>
+        <form id={FORM_ID} onSubmit={handleSubmit}>
           {buildBalanceOptions(t).map(option => (
             <Radio
               key={option.value}
@@ -49,8 +49,8 @@ export const PlanRetirementWizardStep1 = ({
               {buildBalanceInput(option.value, formData, onValueChange, t)}
             </Radio>
           ))}
-        </div>
-      </form>
+        </form>
+      </div>
     </WizardStep>
   );
 };

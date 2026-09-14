@@ -36,8 +36,8 @@ export const PlanRetirementWizardStep4 = ({
       nextButtonFormId={FORM_ID}
       onPreviousButtonClick={onPreviousButtonClick}
     >
-      <form id={FORM_ID} onSubmit={handleSubmit}>
-        <div className='wt-plan-retirement-wizard-step-4'>
+      <div className='wt-plan-retirement-wizard-step-4'>
+        <form id={FORM_ID} onSubmit={handleSubmit}>
           <p>{t('expected_inflation_description')}</p>
           <NumberInput
             name='averageAnnualInflation'
@@ -47,8 +47,8 @@ export const PlanRetirementWizardStep4 = ({
             aria-label={t('average_annual_inflation') as string}
             onValueChange={onValueChange}
           />
-        </div>
-      </form>
+        </form>
+      </div>
     </WizardStep>
   );
 };
