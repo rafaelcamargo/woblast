@@ -12,12 +12,10 @@ const PlansView = () => {
 
   return (
     <>
-      <Topbar
-        leftSlot={<h1>{t('my_plans')}</h1>}
-        rightSlot={<Logo />}
-      />
+      <Topbar midSlot={<Logo wordmark />}/>
       <ViewContainer>
         <div className='wt-plans-view'>
+          <h1>{t('my_plans')}</h1>
           <PlansList />
           <footer className='wt-plans-view-footer'>
             <Button theme='primary' element={Link} to='/plans/new'>

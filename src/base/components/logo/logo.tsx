@@ -1,17 +1,28 @@
+import { useTranslation } from '@compilorama/polang';
+import translations from './logo.t';
+
 type LogoProps = {
   wordmark?: boolean
 };
 
+type WordmarkDrivenPropsType = {
+  className: string,
+  viewBox: string
+};
+
 export const Logo = ({ wordmark }: LogoProps) => {
+  const { t } = useTranslation(translations);
+  const { className, viewBox } = buildWordmarkDrivenProps(wordmark);
+
   return (
     <svg
-      className='wt-logo'
       xmlns='http://www.w3.org/2000/svg'
-      viewBox={wordmark ? '0 0 200 40' : '0 0 55 40'}
       role='img'
-      aria-label='Woblast'
+      aria-label={t('woblast_logotype') as string}
       strokeLinejoin='round'
       strokeMiterlimit={2}
+      className={className}
+      viewBox={viewBox}
     >
       {wordmark && (
         <>
@@ -28,5 +39,22 @@ export const Logo = ({ wordmark }: LogoProps) => {
       <path data-shape data-shape-type='mark' d='M35.205,0.051C35.205,0.051 29.945,21.091 27.055,32.652C25.968,37 22.061,40.051 17.578,40.051C13.871,40.051 10.205,40.051 10.205,40.051L20.205,0.051L35.205,0.051Z' />
       <path data-shape data-shape-type='mark' d='M0.205,0.051L2.694,0.051C5.702,0.051 8.542,1.437 10.394,3.808C12.245,6.179 12.9,9.27 12.171,12.188C10.09,20.509 7.705,30.051 7.705,30.051L0.205,0.051Z' />
     </svg>
-  );  
+  );
 };
+
+function buildWordmarkDrivenProps(wordmark: boolean | undefined): WordmarkDrivenPropsType{
+  const className = buildClassName(wordmark);
+  return wordmark ? {
+    className,
+    viewBox: '0 0 200 40'
+  } : {
+    className,
+    viewBox: '0 0 55 40'
+  };
+}
+
+function buildClassName(wordmark: boolean | undefined){
+  const cssClasses = ['wt-logo'];
+  if(wordmark) cssClasses.push('has-wordmark');
+  return cssClasses.join(' ');
+}

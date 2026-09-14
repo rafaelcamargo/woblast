@@ -27,7 +27,7 @@ const PlanDetailsView = () => {
 
   return (
     <div className='wt-plan-details-view'>
-      <Topbar midSlot={<Logo />} />
+      <Topbar midSlot={<Logo wordmark />} />
       <ViewContainer>
         <h1>{t('plan_created')}</h1>
         {plan && (
