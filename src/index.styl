@@ -1,4 +1,5 @@
 @import 'vars'
+@require 'mixins.styl'
 
 @font-face {
   font-family Inter
@@ -38,12 +39,15 @@ h1, h2, h3, h4, h5, h6, p
 p
   line-height 1.2
 
-input
+input&:not([type=radio]),
+input&:not([type=checkbox])
+  form-control()
   padding 10px 16px
-  border 0
   border-radius 12px
   background-color var(--wt-color-gray-mid-lighter)
   color var(--wt-color-darkest)
   font-family var(--wt-font-family-primary)
   font-size var(--wt-font-size-sm)
-  box-sizing border-box
+
+input:focus:not(:disabled)
+  form-control-focus()

@@ -1,4 +1,7 @@
+@require 'mixins.styl'
+
 .wt-button
+  form-control()
   display inline-flex
   align-items center
   padding 0 32px
@@ -10,15 +13,13 @@
   font-weight 700
   text-decoration none
   border-radius 12px
-  border 0
-  box-sizing border-box
   cursor pointer
   &.is-primary
     background-color var(--wt-color-primary)
     color var(--wt-color-lightest)
     --wt-color-icon var(--wt-color-lightest)
   &.is-secondary
-    background-color var(--wt-color-blue-lighter)
+    background-color var(--wt-color-blue-mid-lighter)
     color var(--wt-color-blue-mid-dark)
     --wt-color-icon var(--wt-color-blue-mid-dark)
   &.is-small
@@ -29,6 +30,8 @@
     .wt-icon
       width 28px
       height 28px
+  &:focus:not(:disabled)
+    form-control-focus()
   &:disabled,
   &[aria-disabled="true"]
     background-color var(--wt-color-gray-light)
