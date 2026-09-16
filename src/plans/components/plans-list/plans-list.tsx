@@ -18,6 +18,7 @@ type PlanDeleteDialogState = {
   planParams?: PlanParams
 }
 
+// eslint-disable-next-line max-statements
 export const PlansList = () => {
   const { t } = useTranslation(translations);
   const { formatDate } = useFormatter();
@@ -32,14 +33,12 @@ export const PlansList = () => {
   };
   const deletePlan = (id: string) => remove(id);
 
-  if (!plans.length) {
-    return <PlansBlankslate />;
-  }
+  if (!plans.length) return <PlansBlankslate />;
 
   return (
     <>
       <ul className='wt-plans-list'>
-        {plans.map(plan => (
+        {sortPlans(plans).map(plan => (
           <li key={plan.id}>
             <Card>
               <div className='wt-plans-list-item'>
@@ -82,3 +81,9 @@ export const PlansList = () => {
     </>
   );
 };
+
+function sortPlans(plans: PlanParams[]) {
+  return [...plans].sort(
+    (planA, planB) => new Date(planB.created_at).getTime() - new Date(planA.created_at).getTime()
+  );
+}
