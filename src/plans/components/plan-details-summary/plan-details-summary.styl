@@ -1,0 +1,31 @@
+@require 'mixins.styl'
+
+.wt-plan-details-summary
+  ul
+    display flex
+    flex-direction column
+    gap 24px
+    margin 0
+    padding 0
+    list-style none
+  li
+    display flex
+    align-items center
+    gap 16px
+  span
+    display block
+    font-size var(--wt-font-size-xxxs)
+    color var(--wt-color-gray-mid-darker)
+    text-transform uppercase
+  strong
+    display block
+    font-size var(--wt-font-size-sm)
+    font-weight 700
+    color var(--wt-color-darkest)
+    text-transform uppercase
+
++breakpoint('sm')
+  .wt-plan-details-summary
+    ul
+      flex-direction row
+      justify-content space-between

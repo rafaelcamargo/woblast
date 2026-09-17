@@ -2,7 +2,9 @@ import type { Translations } from '@compilorama/polang';
 
 const translations: Translations = {
   'pt-BR': {
-    save: 'Salvar'
+    retirement_start: 'Início aposentadoria',
+    balance: 'Montante',
+    interests: 'Rendimentos'
   }
 };
 

@@ -8,4 +8,8 @@ describe('Date Service', () => {
     expect(now.getMonth()).toEqual(serviceNow.getMonth());
     expect(now.getFullYear()).toEqual(serviceNow.getFullYear());
   });
+
+  it('should format full month and year', () => {
+    expect(dateService.formatFullMonthYear({ month: '06', year: '2027', locale: 'pt-BR' })).toEqual('junho 2027');
+  });
 });

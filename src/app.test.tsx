@@ -1,4 +1,4 @@
-import { customRender, mockRoute, screen } from '@src/base/services/testing';
+import { customRender, mockRoute, screen, within } from '@src/base/services/testing';
 import dateService from '@src/base/services/date';
 import { App } from './app';
 
@@ -64,14 +64,22 @@ describe('App', () => {
   it('should render plan details view', async () => {
     window.localStorage.setItem('wt_plans', JSON.stringify([buildSavedPlanMock()]));
     mockRoute('/plans/a1B2c3');
-    customRender(<App />);
-    expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
+    const { container } = customRender(<App />);
+    expect(await screen.findByText('junho 2046')).toBeInTheDocument();
+    const summary = container.querySelector('#planDetailsSummary') as HTMLElement;
+    expect(within(summary).getByText('junho 2046')).toBeInTheDocument();
+    expect(within(summary).getByText('1.811.536,79')).toBeInTheDocument();
+    expect(within(summary).getByText('12.076,41')).toBeInTheDocument();
   });
 
   it('should render plan preview view', async () => {
     window.localStorage.setItem('wt_retirementPlanDraft', JSON.stringify(buildPlanFormDataMock()));
     mockRoute('/plans/preview');
-    customRender(<App />);
-    expect(await screen.findByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
+    const { container } = customRender(<App />);
+    expect(await screen.findByText('junho 2046')).toBeInTheDocument();
+    const summary = container.querySelector('#planDetailsSummary') as HTMLElement;
+    expect(within(summary).getByText('junho 2046')).toBeInTheDocument();
+    expect(within(summary).getByText('1.811.536,79')).toBeInTheDocument();
+    expect(within(summary).getByText('12.076,41')).toBeInTheDocument();
   });
 });

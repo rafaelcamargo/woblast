@@ -65,15 +65,23 @@ describe('Plan Details View', () => {
 
   it('should show the retirement result calculated from the temporary plan stored in local storage', () => {
     mockPlanFormData(buildPlanFormData());
-    mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
-    expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
-    expect(document.getElementById('retirementResultDescription')?.textContent).toEqual('Você poderá se aposentar em junho de 2027 quando o montante alcançar R$\u00a0128.948,74 e estiver rendendo R$\u00a0847,95 ao mês, já descontados os impostos.');
+    const { container } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
+    const summary = container.querySelector('#planDetailsSummary') as HTMLElement;
+    const items = within(summary).getAllByRole('listitem');
+    expect(items[0].querySelector('.wt-icon-calendar')).toBeInTheDocument();
+    expect(within(items[0]).getByText('Início aposentadoria')).toBeInTheDocument();
+    expect(within(items[0]).getByText('junho 2027')).toBeInTheDocument();
+    expect(items[1].querySelector('.wt-icon-vault')).toBeInTheDocument();
+    expect(within(items[1]).getByText('Montante')).toBeInTheDocument();
+    expect(within(items[1]).getByText('128.948,74')).toBeInTheDocument();
+    expect(items[2].querySelector('.wt-icon-coins')).toBeInTheDocument();
+    expect(within(items[2]).getByText('Rendimentos')).toBeInTheDocument();
+    expect(within(items[2]).getByText('847,95')).toBeInTheDocument();
   });
 
   it('should not calculate a retirement result when temporary plan data is not available', () => {
-    mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
-    expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
-    expect(document.getElementById('retirementResultDescription')).not.toBeInTheDocument();
+    const { container } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
+    expect(container.querySelector('#planDetailsSummary')).toBeNull();
   });
 
   it('should show simulation months grouped by year', async () => {
@@ -206,14 +214,23 @@ describe('Plan Details View', () => {
 
   it('should show retirement result from saved plan and hide save button', () => {
     window.localStorage.setItem('wt_plans', JSON.stringify([buildSavedPlan()]));
-    mount({ routePath: '/plans/:planId', currentRoute: '/plans/a1B2c3' });
-    expect(document.getElementById('retirementResultDescription')?.textContent).toEqual('Você poderá se aposentar em junho de 2027 quando o montante alcançar R$\u00a0128.948,74 e estiver rendendo R$\u00a0847,95 ao mês, já descontados os impostos.');
+    const { container } = mount({ routePath: '/plans/:planId', currentRoute: '/plans/a1B2c3' });
+    const summary = container.querySelector('#planDetailsSummary') as HTMLElement;
+    const items = within(summary).getAllByRole('listitem');
+    expect(items[0].querySelector('.wt-icon-calendar')).toBeInTheDocument();
+    expect(within(items[0]).getByText('Início aposentadoria')).toBeInTheDocument();
+    expect(within(items[0]).getByText('junho 2027')).toBeInTheDocument();
+    expect(items[1].querySelector('.wt-icon-vault')).toBeInTheDocument();
+    expect(within(items[1]).getByText('Montante')).toBeInTheDocument();
+    expect(within(items[1]).getByText('128.948,74')).toBeInTheDocument();
+    expect(items[2].querySelector('.wt-icon-coins')).toBeInTheDocument();
+    expect(within(items[2]).getByText('Rendimentos')).toBeInTheDocument();
+    expect(within(items[2]).getByText('847,95')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Salvar' })).not.toBeInTheDocument();
   });
 
   it('should not show retirement result when saved plan id does not exist', () => {
-    mount({ routePath: '/plans/:planId', currentRoute: '/plans/abc' });
-    expect(screen.getByRole('heading', { level: 1, name: 'Plano criado!' })).toBeInTheDocument();
-    expect(document.getElementById('retirementResultDescription')).not.toBeInTheDocument();
+    const { container } = mount({ routePath: '/plans/:planId', currentRoute: '/plans/abc' });
+    expect(container.querySelector('#planDetailsSummary')).toBeNull();
   });
 });
