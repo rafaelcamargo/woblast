@@ -13,7 +13,7 @@ import PlanDialog from '@src/plans/components/plan-dialog/plan-dialog';
 import RetirementPlanList from '@src/plans/components/retirement-plan-list/retirement-plan-list';
 import translations from './plan-details-view.t';
 
-// eslint-disable-next-line max-statements, complexity
+// eslint-disable-next-line complexity
 const PlanDetailsView = () => {
   const { planId } = useParams();
   const { t } = useTranslation(translations);
@@ -21,12 +21,15 @@ const PlanDetailsView = () => {
   const [planDialogOpen, setPlanDialogOpen] = useState(false);
   const retirementParams = buildRetirementPlanParams(planId, find, getRetirementPlanDraft);
   const plan = retirementParams ? retirementService.buildPlan(retirementParams) : null;
-  const openPlanDialog = () => setPlanDialogOpen(true);
-  const closePlanDialog = () => setPlanDialogOpen(false);
+  const heading = buildTopbarHeading(planId, find, t('new_plan'));
 
   return (
     <div className='wt-plan-details-view'>
-      <Topbar midSlot={<Logo wordmark />} />
+      <Topbar
+        backLinkHref={planId ? '/plans' : undefined}
+        leftSlot={<h1>{heading}</h1>}
+        rightSlot={<Logo wordmark />}
+      />
       <ViewContainer>
         {plan && (
           <>
@@ -38,7 +41,7 @@ const PlanDetailsView = () => {
             <RetirementPlanList months={plan.months} />
             {!planId && (
               <footer className='wt-plan-details-view-footer'>
-                <Button theme='primary' onClick={openPlanDialog}>
+                <Button theme='primary' onClick={() => setPlanDialogOpen(true)}>
                   {t('save')}
                 </Button>
               </footer>
@@ -46,7 +49,7 @@ const PlanDetailsView = () => {
           </>
         )}
       </ViewContainer>
-      {!planId && <PlanDialog open={planDialogOpen} onClose={closePlanDialog} />}
+      {!planId && <PlanDialog open={planDialogOpen} onClose={() => setPlanDialogOpen(false)} />}
     </div>
   );
 };
@@ -58,6 +61,14 @@ function buildRetirementPlanParams(
 ): RetirementPlanParams | undefined {
   const data = planId ? find(planId) : getRetirementPlanDraft();
   return data ? retirementService.convertToRetirementPlanParams(data) : undefined;
+}
+
+function buildTopbarHeading(
+  planId: string | undefined,
+  find: ReturnType<typeof usePlans>['find'],
+  newPlanHeading: React.ReactNode
+){
+  return planId ? find(planId)?.name : newPlanHeading;
 }
 
 export default PlanDetailsView;

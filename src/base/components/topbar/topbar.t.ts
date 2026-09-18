@@ -2,8 +2,7 @@ import type { Translations } from '@compilorama/polang';
 
 const translations: Translations = {
   'pt-BR': {
-    new_plan: 'Novo plano',
-    save: 'Salvar'
+    go_back: 'Voltar'
   }
 };
 

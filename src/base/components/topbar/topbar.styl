@@ -1,5 +1,12 @@
 .wt-topbar
-  padding 0 20px;
+  position sticky
+  top 0
+  padding 0 20px
+  background-color var(--wt-color-gray-lighter)
+  box-shadow 0 10px 36px var(--wt-color-gray-lighter)
+  z-index var(--wt-layer-lowest)
+  h1
+    font-size var(--wt-font-size-xs)
   .wt-topbar-content
     display grid
     grid-template-columns 1fr auto 1fr
@@ -8,6 +15,9 @@
     height 70px
     margin 0 auto
   .wt-topbar-left-slot
+    display flex
+    align-items center
+    gap 10px
     justify-self start
     grid-column 1
   .wt-topbar-mid-slot

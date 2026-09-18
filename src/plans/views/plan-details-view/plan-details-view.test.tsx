@@ -66,6 +66,8 @@ describe('Plan Details View', () => {
   it('should show the retirement result calculated from the temporary plan stored in local storage', () => {
     mockPlanFormData(buildPlanFormData());
     const { container } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
+    expect(screen.getByRole('heading', { level: 1, name: 'Novo plano' })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Voltar' })).not.toBeInTheDocument();
     const summary = container.querySelector('#planDetailsSummary') as HTMLElement;
     const items = within(summary).getAllByRole('listitem');
     expect(items[0].querySelector('.wt-icon-calendar')).toBeInTheDocument();
@@ -215,6 +217,8 @@ describe('Plan Details View', () => {
   it('should show retirement result from saved plan and hide save button', () => {
     window.localStorage.setItem('wt_plans', JSON.stringify([buildSavedPlan()]));
     const { container } = mount({ routePath: '/plans/:planId', currentRoute: '/plans/a1B2c3' });
+    expect(screen.getByRole('heading', { level: 1, name: 'Saved Plan' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Voltar' })).toHaveAttribute('href', '/plans');
     const summary = container.querySelector('#planDetailsSummary') as HTMLElement;
     const items = within(summary).getAllByRole('listitem');
     expect(items[0].querySelector('.wt-icon-calendar')).toBeInTheDocument();
@@ -231,6 +235,8 @@ describe('Plan Details View', () => {
 
   it('should not show retirement result when saved plan id does not exist', () => {
     const { container } = mount({ routePath: '/plans/:planId', currentRoute: '/plans/abc' });
+    expect(screen.getByRole('heading', { level: 1 })).toBeEmptyDOMElement();
+    expect(screen.getByRole('link', { name: 'Voltar' })).toHaveAttribute('href', '/plans');
     expect(container.querySelector('#planDetailsSummary')).toBeNull();
   });
 });
