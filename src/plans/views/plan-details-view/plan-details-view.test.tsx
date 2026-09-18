@@ -124,6 +124,15 @@ describe('Plan Details View', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
+  it('should discard temporary plan draft and redirect to plans view', async () => {
+    useCustomHistoryMock.activate();
+    mockPlanFormData(buildPlanFormData());
+    const { user } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
+    await user.click(screen.getByRole('button', { name: 'Descartar' }));
+    expect(window.localStorage.getItem('wt_retirementPlanDraft')).toBeNull();
+    expect(useCustomHistoryMock.push).toHaveBeenCalledWith('/plans');
+  });
+
   it('should be able to save plan params into plans collection', async () => {
     useCustomHistoryMock.activate();
     mockPlanFormData(buildPlanFormData());

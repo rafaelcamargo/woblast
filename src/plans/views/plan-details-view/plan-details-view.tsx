@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
 import { useParams } from 'react-router-dom';
+import useCustomHistoryModule from '@src/base/hooks/use-custom-history';
 import { usePlans } from '@src/plans/hooks/use-plans';
 import retirementService from '@src/plans/services/retirement';
 import type { RetirementPlanParams } from '@src/plans/types/retirement-plan-params';
@@ -13,15 +14,20 @@ import PlanDialog from '@src/plans/components/plan-dialog/plan-dialog';
 import RetirementPlanList from '@src/plans/components/retirement-plan-list/retirement-plan-list';
 import translations from './plan-details-view.t';
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line max-statements, complexity
 const PlanDetailsView = () => {
   const { planId } = useParams();
   const { t } = useTranslation(translations);
-  const { find, getRetirementPlanDraft } = usePlans();
+  const customHistory = useCustomHistoryModule.useCustomHistory();
+  const { deleteRetirementPlanDraft, find, getRetirementPlanDraft } = usePlans();
   const [planDialogOpen, setPlanDialogOpen] = useState(false);
   const retirementParams = buildRetirementPlanParams(planId, find, getRetirementPlanDraft);
   const plan = retirementParams ? retirementService.buildPlan(retirementParams) : null;
   const heading = buildTopbarHeading(planId, find, t('new_plan'));
+  const discardDraft = () => {
+    deleteRetirementPlanDraft();
+    customHistory.push('/plans');
+  };
 
   return (
     <div className='wt-plan-details-view'>
@@ -41,6 +47,9 @@ const PlanDetailsView = () => {
             <RetirementPlanList months={plan.months} />
             {!planId && (
               <footer className='wt-plan-details-view-footer'>
+                <Button theme='secondary' onClick={discardDraft}>
+                  {t('discard')}
+                </Button>
                 <Button theme='primary' onClick={() => setPlanDialogOpen(true)}>
                   {t('save')}
                 </Button>

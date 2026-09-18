@@ -6,7 +6,7 @@ import { PlanRetirementWizard } from '@src/plans/components/plan-retirement-wiza
 const NewPlanView = () => {
   return (
     <>
-      <Topbar rightSlot={<Logo wordmark />} />
+      <Topbar midSlot={<Logo wordmark />} />
       <ViewContainer>
         <PlanRetirementWizard />
       </ViewContainer>
