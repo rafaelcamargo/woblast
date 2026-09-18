@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useTranslation } from '@compilorama/polang';
 import { useFormatter } from '@src/base/hooks/use-formatter';
 import type { SimulationMonth } from '@src/plans/services/retirement';
-import { Button } from '@src/base/components/button/button';
+import { IconButton } from '@src/base/components/icon-button/icon-button';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@src/base/components/table/table';
+import { ArrowIcon } from '@src/base/icons/arrow';
+import { LeftArrowIcon } from '@src/base/icons/left-arrow';
 import translations from './retirement-plan-list.t';
 
 type RetirementPlanListProps = {
@@ -23,21 +25,25 @@ const RetirementPlanList = ({ months }: RetirementPlanListProps) => {
   return (
     <div className='wt-retirement-plan-list'>
       <div className='wt-retirement-plan-list-header'>
-        <Button
+        <IconButton
           theme='secondary'
           disabled={selectedYearIndex === 0}
           onClick={handlePreviousYear}
+          aria-label={t('previous_year') as string}
         >
-          {t('previous_year')}
-        </Button>
-        <span>{selectedYear}</span>
-        <Button
+          <LeftArrowIcon />
+        </IconButton>
+        <strong>
+          {selectedYear}
+        </strong>
+        <IconButton
           theme='secondary'
           disabled={selectedYearIndex === years.length - 1}
           onClick={handleNextYear}
+          aria-label={t('next_year') as string}
         >
-          {t('next_year')}
-        </Button>
+          <ArrowIcon />
+        </IconButton>
       </div>
       <Table
         className='wt-retirement-plan-list-table'

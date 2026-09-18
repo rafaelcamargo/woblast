@@ -22,6 +22,9 @@
     background-color var(--wt-color-blue-mid-lighter)
     color var(--wt-color-blue-mid-dark)
     --wt-color-icon var(--wt-color-blue-mid-dark)
+    &:disabled,
+    &[aria-disabled="true"]
+      --wt-color-icon var(--wt-color-gray-dark)
   &.is-small
     width 28px
     height 28px
