@@ -4,14 +4,19 @@
   ul
     display flex
     flex-direction column
-    gap 24px
     margin 0
     padding 0
     list-style none
   li
     display flex
     align-items center
-    gap 16px
+    gap 20px
+    padding 10px
+    background-color var(--wt-color-gray-mid-lighter)
+    border-radius 10px
+    box-sizing border-box
+    &:not(:first-child)
+      margin-top 20px
   span
     display block
     font-size var(--wt-font-size-xxxs)
@@ -23,9 +28,16 @@
     font-weight 700
     color var(--wt-color-darkest)
     text-transform uppercase
+  .wt-icon
+    [data-stroke]
+      stroke-width 1px
 
 +breakpoint('sm')
   .wt-plan-details-summary
     ul
       flex-direction row
       justify-content space-between
+    li
+      width 250px
+      &:not(:first-child)
+        margin-top 0
