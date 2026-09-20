@@ -16,8 +16,10 @@ module.exports = {
   },
   moduleNameMapper: {
     '^@src/.*\\.styl$': '<rootDir>/src/base/mocks/jest.style-mock.cjs',
+    '^@src/.*\\.webp$': '<rootDir>/src/base/mocks/jest.file-mock.cjs',
     '^@src/(.*)$': '<rootDir>/src/$1',
-    '\\.styl$': '<rootDir>/src/base/mocks/jest.style-mock.cjs'
+    '\\.styl$': '<rootDir>/src/base/mocks/jest.style-mock.cjs',
+    '\\.webp$': '<rootDir>/src/base/mocks/jest.file-mock.cjs'
   },
   transform: {
     '^.+\\.tsx?$': [
