@@ -43,7 +43,7 @@ describe('App', () => {
   it('should contain the homepage title on the document', async () => {
     mockRoute('/');
     customRender(<App />);
-    expect(await screen.findByRole('heading', { level: 1, name: 'Página inicial' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { level: 1, name: 'Planejar a aposentadoria não deveria ser complicado' })).toBeInTheDocument();
   });
 
   it('should contain a plans view', async () => {

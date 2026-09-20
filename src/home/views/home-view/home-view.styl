@@ -1,0 +1,144 @@
+@require 'mixins.styl'
+
+.wt-home-view
+  position relative
+  padding 0 20px
+  background-color var(--wt-color-lightest)
+  overflow-x clip
+  > img
+    position absolute
+    top 0
+    left 0
+    width 100%
+    aspect-ratio 1512 / 1204
+    object-fit fill
+
+.wt-home-view-highlight
+  display flex
+  position relative
+  flex-direction column-reverse
+  align-items center
+  gap 32px
+  margin 64px auto 0
+  max-width 1200px
+  z-index 1
+  img
+    position relative
+    bottom -45px
+    width 100%
+    max-width 100px
+    height auto
+  .wt-home-view-highlight-content
+    display flex
+    position relative
+    flex-direction column
+    align-items flex-start
+    padding 32px 24px
+    width 100%
+    border 1px solid var(--wt-color-blue-mid-lighter)
+    border-radius 24px
+    box-sizing border-box
+    &:before
+      content ''
+      position absolute
+      inset -1px
+      border 1px solid var(--wt-color-blue-mid-lighter)
+      border-radius 24px
+      transform rotate(-15deg)
+      pointer-events none
+    h2,
+    p,
+    .wt-button
+      position relative
+      flex-shrink 0
+      z-index 1
+    h2
+      font-size var(--wt-font-size-xl)
+      font-weight 400
+    p
+      margin-top 16px
+    .wt-button
+      justify-content center
+      margin-top 24px
+      min-width 220px
+
+.wt-home-view-cta
+  display flex
+  position relative
+  flex-direction column
+  align-items center
+  margin 64px auto 0
+  max-width 760px
+  text-align center
+  z-index 1
+  .wt-icon
+    width 64px
+    height 64px
+    --wt-color-icon var(--wt-color-gray)
+    [data-stroke]
+      stroke-width 1px
+  h2
+    margin-top 24px
+    font-size var(--wt-font-size-xxl)
+    font-weight 400
+    letter-spacing -1px
+  p
+    margin-top 16px
+    max-width 520px
+  .wt-button
+    justify-content center
+    margin-top 32px
+    min-width 220px
+
++breakpoint('md')
+  .wt-home-view
+    padding 0 20px 40px
+    > img
+     top -80px
+    padding-bottom 80px
+  .wt-home-view-highlight
+    flex-direction row
+    justify-content center
+    gap 0
+    margin-top 140px
+    img
+      position relative
+      bottom auto
+      width 100%
+      max-width none
+      width 355px
+      margin-left -50px
+      z-index 1
+    &.is-reversed
+      flex-direction row-reverse
+      img
+        margin-right -50px
+        margin-left 0
+    .wt-home-view-highlight-content
+      padding 64px 70px
+      width 594px
+      min-height 378px
+      border-radius 40px
+      &:before
+        border-radius 40px
+      h2
+        font-size var(--wt-font-size-xxl)
+      p
+        margin-top 20px
+      .wt-button
+        margin-top 32px
+  .wt-home-view-cta
+    margin-top 160px
+    .wt-icon
+      width 80px
+      height 80px
+    h2
+      margin-top 40px
+      max-width 640px
+      font-size var(--wt-font-size-ml)
+      letter-spacing -1px
+    p
+      margin-top 24px
+      max-width 500px
+    .wt-button
+      margin-top 48px

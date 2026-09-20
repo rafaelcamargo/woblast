@@ -1,0 +1,26 @@
+@require 'mixins.styl'
+
+.wt-home-footer
+  position relative
+  left -20px
+  width 100vw
+  display flex
+  position relative
+  align-items center
+  justify-content center
+  margin 64px auto 0
+  max-width 1200px
+  height 64px
+  background-color var(--wt-color-gray-lighter)
+  z-index 1
+  p
+    color var(--wt-color-gray-mid-dark)
+    font-size var(--wt-font-size-xs)
+
++breakpoint('md')
+  .wt-home-footer
+    left 0
+    width auto
+    margin-top 160px
+    height 80px
+    border-radius 20px

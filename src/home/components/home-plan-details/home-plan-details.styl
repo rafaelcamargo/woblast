@@ -1,0 +1,105 @@
+@require 'mixins.styl'
+
+.wt-home-plan-details
+  margin 160px auto 0
+
+.wt-home-plan-details-content
+  display flex
+  position relative
+  left -20px
+  width 100vw
+  flex-direction column
+  align-items center
+  padding 160px 40px
+  background-color var(--wt-color-blue-darker)
+  overflow hidden
+  box-sizing border-box
+  &:before
+    content ''
+    position absolute
+    top 50%
+    left 50%
+    width 140%
+    height 80%
+    border 1px solid var(--wt-color-blue)
+    border-radius 32px
+    transform translate(-50%, -50%) rotate(-15deg)
+    pointer-events none
+  h2
+    position relative
+    max-width 640px
+    color var(--wt-color-lightest)
+    font-size var(--wt-font-size-xl)
+    font-weight 700
+    text-align center
+    z-index 1
+  > p
+    position relative
+    margin-top 16px
+    max-width 520px
+    color var(--wt-color-lightest)
+    text-align center
+    z-index 1
+  .wt-button
+    position relative
+    justify-content center
+    margin-top 24px
+    min-width 220px
+    z-index 1
+  ul
+    position relative
+    display grid
+    grid-template-columns 1fr
+    gap 32px
+    margin 120px 0 0
+    padding 0
+    width 100%
+    list-style none
+    z-index 1
+  li
+    .wt-icon
+      width 48px
+      height 48px
+      --wt-color-icon var(--wt-color-lightest)
+      [data-stroke]
+        stroke-width 1px
+    h3
+      margin-top 16px
+      color var(--wt-color-lightest)
+      font-size var(--wt-font-size-lg)
+      font-weight 700
+    p
+      margin-top 8px
+      color var(--wt-color-lightest)
+
++breakpoint('md')
+  .wt-home-plan-details
+    position relative
+    padding 9px
+    max-width 1200px
+    border 1px solid var(--wt-color-blue)
+    border-radius 60px
+    box-sizing border-box
+    z-index 1
+  .wt-home-plan-details-content
+    left 0
+    width auto
+    padding 96px 88px
+    border-radius 50px
+    &:before
+      width 1200px
+      height 700px
+      border-radius 60px
+    h2
+      font-size var(--wt-font-size-xxl)
+    > p
+      margin-top 20px
+    .wt-button
+      margin-top 32px
+    ul
+      grid-template-columns repeat(3, 1fr)
+      gap 94px
+      margin-top 80px
+    li
+      h3
+        font-size var(--wt-font-size-xl)

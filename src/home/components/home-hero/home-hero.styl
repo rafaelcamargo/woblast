@@ -1,0 +1,32 @@
+@require 'mixins.styl'
+
+.wt-home-hero
+  display flex
+  position relative
+  flex-direction column
+  align-items center
+  margin 100px auto 120px
+  max-width 760px
+  text-align center
+  z-index 1
+  h1
+    font-size var(--wt-font-size-xxl)
+    font-weight 400
+    letter-spacing -1px
+  p
+    margin-top 16px
+  .wt-button
+    justify-content center
+    margin-top 24px
+    min-width 220px
+
++breakpoint('md')
+  .wt-home-hero
+    margin-top 220px
+    h1
+      max-width 760px
+      font-size var(--wt-font-size-ml)
+    p
+      margin-top 24px
+    .wt-button
+      margin-top 40px
