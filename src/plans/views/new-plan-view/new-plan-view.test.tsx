@@ -3,9 +3,9 @@ import useCustomHistoryMock from '@src/base/mocks/useCustomHistory';
 import NewPlanView from './new-plan-view';
 
 describe('New Plan View', () => {
-  function mount() {
+  function mount({ currentRoute = '/plans/new' } = {}) {
     return customRender(
-      <TestingRouter routePath="/plans/new" currentRoute="/plans/new">
+      <TestingRouter routePath="/plans/new" currentRoute={currentRoute}>
         <NewPlanView />
       </TestingRouter>
     );
@@ -30,6 +30,7 @@ describe('New Plan View', () => {
     await user.type(screen.getByRole('textbox', { name: 'Saldo inicial' }), '1000000');
     await user.click(screen.getByRole('button', { name: 'Próxima' }));
     expect(screen.getByRole('heading', { level: 2, name: 'Depósitos mensais' })).toBeInTheDocument();
+    expect(window.location.search).toEqual('?step=2');
     expect(screen.getByRole('button', { name: 'Próxima' })).toBeDisabled();
     await user.type(screen.getByRole('textbox', { name: 'Valor do depósito mensal' }), '200000');
     await user.click(screen.getByRole('button', { name: 'Próxima' }));
@@ -77,5 +78,19 @@ describe('New Plan View', () => {
     await user.click(screen.getByRole('button', { name: 'Anterior' }));
     expect(screen.getByRole('heading', { level: 2, name: 'Saldo inicial' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Anterior' })).not.toBeInTheDocument();
+  });
+
+  it('should optionally initialize wizard on the step found on search params', () => {
+    mount({ currentRoute: '/plans/new?step=2' });
+    expect(screen.getByText('Etapa 2')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Depósitos mensais' })).toBeInTheDocument();
+  });
+
+  it('should fallback to first step when search param step is incompatible with number type', async () => {
+    const { user } = mount({ currentRoute: '/plans/new?step=A' });
+    expect(screen.getByText('Etapa 1')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 2, name: 'Saldo inicial' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    expect(window.location.search).toEqual('?step=2');
   });
 });

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { I18nProvider } from '@src/base/providers/i18n/i18n';
 export * from '@testing-library/react';
 
@@ -25,9 +25,9 @@ type TestingRouterProps = {
 }
 
 export const TestingRouter = ({ routePath, currentRoute, children }: TestingRouterProps) => {
+  window.history.replaceState({}, '', currentRoute);
   return (
-    <MemoryRouter
-      initialEntries={[currentRoute]}
+    <BrowserRouter
       future={{
         v7_startTransition: true,
         v7_relativeSplatPath: true
@@ -36,6 +36,6 @@ export const TestingRouter = ({ routePath, currentRoute, children }: TestingRout
       <Routes>
         <Route path={routePath} element={children} />
       </Routes>
-    </MemoryRouter>
+    </BrowserRouter>
   );
 };

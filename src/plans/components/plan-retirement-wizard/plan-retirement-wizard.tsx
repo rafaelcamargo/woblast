@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import useCustomHistoryModule from '@src/base/hooks/use-custom-history';
 import { useLocalStorageState } from '@src/base/hooks/use-local-storage-state';
+import { useSearchParamsState } from '@src/base/hooks/use-search-params-state';
 import type { NumberInputChangeValue } from '@src/base/components/number-input/number-input';
 import { Wizard } from '@src/base/components/wizard/wizard';
 import { PlanRetirementWizardStep1 } from '@src/plans/components/plan-retirement-wizard-step-1/plan-retirement-wizard-step-1';
@@ -13,7 +13,10 @@ import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft
 
 export const PlanRetirementWizard = () => {
   const customHistory = useCustomHistoryModule.useCustomHistory();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [wizardSearchParams, setWizardSearchParams] = useSearchParamsState(
+    { step: 1 },
+    { step: 'number' }
+  );
   const [formData, setFormData] = useLocalStorageState<RetirementPlanDraft>('wt_retirementPlanDraft', {
     initialBalanceAvailability: 'balance_unavailable',
     initialBalance: 0,
@@ -29,13 +32,13 @@ export const PlanRetirementWizard = () => {
   const handleMoneyFormDataChange = ({ name, value }: NumberInputChangeValue) => {
     setFormData({ ...formData, [name]: value });
   };
-  const goBack = () => setCurrentStep(currentStep - 1);
-  const goForward = () => setCurrentStep(currentStep + 1);
+  const goBack = () => setWizardSearchParams(prev => ({ ...prev, step: prev.step - 1 }));
+  const goForward = () => setWizardSearchParams(prev => ({ ...prev, step: prev.step + 1 }));
   const goToPreview = () => customHistory.push('/plans/preview');
 
   return (
     <div className="wt-plan-retirement-wizard">
-      <Wizard currentStep={currentStep}>
+      <Wizard currentStep={wizardSearchParams.step}>
         <PlanRetirementWizardStep1
           formData={formData}
           onChange={handleFormDataChange}
