@@ -6,7 +6,7 @@ export const PlansBlankslate = () => {
   const { t } = useTranslation(translations);
   return (
     <div className='wt-plans-blankslate'>
-      <img src={deskImage} alt='' />
+      <img src={deskImage} alt={t('desk_image_alt') as string} />
       <h2>{t('title')}</h2>
       <p>{t('message')}</p>
     </div>

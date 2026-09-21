@@ -15,6 +15,7 @@ import translations from './home-view.t';
 type HomeViewHighlight = {
   className: string
   image: string
+  alt: string
   title: React.ReactNode
   description: React.ReactNode
 };
@@ -25,10 +26,10 @@ const HomeView = () => {
 
   return (
     <div className='wt-home-view'>
-      <img src={skyImage} alt='' />
+      <img src={skyImage} alt={t('sky_image_alt') as string} />
       <HomeIsland />
       <HomeHero />
-      {highlights.map(({ className, image, title, description }, index) => (
+      {highlights.map(({ className, image, alt, title, description }, index) => (
         <section className={className} key={index}>
           <div className='wt-home-view-highlight-content'>
             <h2>{title}</h2>
@@ -37,7 +38,7 @@ const HomeView = () => {
               {t('plan_now')}
             </Button>
           </div>
-          <img src={image} alt='' />
+          <img src={image} alt={alt} />
         </section>
       ))}
       <HomePlanDetails />
@@ -59,12 +60,14 @@ function buildHighlights(t: UseTranslationResult['t']): HomeViewHighlight[] {
     {
       className: 'wt-home-view-highlight',
       image: beachImage,
+      alt: t('beach_image_alt') as string,
       title: t('first_step_title'),
       description: t('first_step_description')
     },
     {
       className: 'wt-home-view-highlight is-reversed',
       image: calculatorImage,
+      alt: t('calculator_image_alt') as string,
       title: t('concrete_plan_title'),
       description: t('concrete_plan_description')
     }
