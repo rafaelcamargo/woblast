@@ -1,5 +1,6 @@
 import { useTranslation } from '@compilorama/polang';
 import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
+import { TipBox } from '@src/base/components/tip-box/tip-box';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import translations from './plan-retirement-wizard-step-4.t';
@@ -46,6 +47,15 @@ export const PlanRetirementWizardStep4 = ({
             autoFocus
             aria-label={t('average_annual_inflation') as string}
             onValueChange={onValueChange}
+          />
+          <TipBox
+            title={t('tip_title') as string}
+            description={
+              <>
+                <p>{t('tip_description_1')}</p>
+                <p>{t('tip_description_2')}</p>
+              </>
+            }
           />
         </form>
       </div>

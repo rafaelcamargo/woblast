@@ -1,5 +1,6 @@
 import { useTranslation } from '@compilorama/polang';
 import { NumberInput, type NumberInputChangeValue } from '@src/base/components/number-input/number-input';
+import { TipBox } from '@src/base/components/tip-box/tip-box';
 import { WizardStep } from '@src/base/components/wizard-step/wizard-step';
 import type { RetirementPlanDraft } from '@src/plans/types/retirement-plan-draft';
 import translations from './plan-retirement-wizard-step-6.t';
@@ -48,6 +49,7 @@ export const PlanRetirementWizardStep6 = ({
             aria-label={t('desired_monthly_income_amount') as string}
             onValueChange={onValueChange}
           />
+          <TipBox title={t('tip_title') as string} description={t('tip_description') as string} />
         </form>
       </div>
     </WizardStep>
