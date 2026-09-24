@@ -4,6 +4,7 @@ import type { PlanParams } from '@src/plans/types/plan-params';
 import useCustomHistoryMock from '@src/base/mocks/useCustomHistory';
 import dateService from '@src/base/services/date';
 import idService from '@src/base/services/id';
+import retirementService from '@src/plans/services/retirement';
 import PlanDetailsView from './plan-details-view';
 
 type MountProps = {
@@ -246,6 +247,18 @@ describe('Plan Details View', () => {
     const { container } = mount({ routePath: '/plans/:planId', currentRoute: '/plans/abc' });
     expect(screen.getByRole('heading', { level: 1 })).toBeEmptyDOMElement();
     expect(screen.getByRole('link', { name: 'Voltar' })).toHaveAttribute('href', '/plans');
+    expect(container.querySelector('#planDetailsSummary')).toBeNull();
+  });
+
+  it('should show an unknown error message when plan building fails for an unexpected reason', () => {
+    mockPlanFormData(buildPlanFormData());
+    jest.spyOn(retirementService, 'buildPlan').mockImplementation(() => {
+      throw new Error('Unexpected failure');
+    });
+    const { container } = mount({ routePath: '/plans/preview', currentRoute: '/plans/preview' });
+    expect(screen.getByRole('heading', { level: 2, name: 'Algo deu errado' })).toBeInTheDocument();
+    expect(screen.getByText('Houve um erro inesperado enquanto o plano estava sendo criado. Por favor, tente novamente.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Tentar novamente' })).toHaveAttribute('href', '/plans/new');
     expect(container.querySelector('#planDetailsSummary')).toBeNull();
   });
 });

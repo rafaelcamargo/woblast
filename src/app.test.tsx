@@ -82,4 +82,30 @@ describe('App', () => {
     expect(within(summary).getByText('1.811.536,79')).toBeInTheDocument();
     expect(within(summary).getByText('12.076,41')).toBeInTheDocument();
   });
+
+  it('should show an unreachable plan message when wizard completes with unrealistic params', async () => {
+    mockRoute('/plans/new');
+    const { user, container } = customRender(<App />);
+    await screen.findByRole('heading', { level: 2, name: 'Saldo inicial' });
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    await user.type(screen.getByRole('textbox', { name: 'Valor do depósito mensal' }), '1');
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    await user.type(screen.getByRole('textbox', { name: 'Rentabilidade anual média' }), '1');
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    await user.type(screen.getByRole('textbox', { name: 'Inflação anual média' }), '1');
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    await user.type(screen.getByRole('textbox', { name: 'Alíquota média de impostos' }), '1');
+    await user.click(screen.getByRole('button', { name: 'Próxima' }));
+    await user.type(screen.getByRole('textbox', { name: 'Valor da renda mensal desejada' }), '1000000');
+    await user.click(screen.getByRole('button', { name: 'Concluir' }));
+    expect(await screen.findByRole('heading', { level: 1, name: 'Novo plano' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Logotipo Woblast' })).toHaveClass('has-wordmark');
+    expect(screen.getByRole('heading', { level: 2, name: 'Não foi possível criar um plano' })).toBeInTheDocument();
+    expect(screen.getByText('A partir dos dados informados, sua aposentadoria pareceu ficar distante demais. Experimente incrementar o valor dos depósitos mensais, reduzir a renda desejada ou encontrar aplicações que tenham uma rentabilidade maior e, então, tente novamente.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Tentar novamente' })).toHaveAttribute('href', '/plans/new');
+    expect(container.querySelector('#planDetailsSummary')).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Salvar' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Descartar' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('columnheader', { name: 'Mês' })).not.toBeInTheDocument();
+  });
 });
